@@ -1,0 +1,414 @@
+<!-- Mobile Resolution -->
+<div *ngIf="mobileResolution">  
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">      
+    <li style="padding: 10px" 
+      class="dropdown" 
+      appDropdown 
+      #tab="appDropdown">
+      <a style=" color: whitesmoke; cursor: pointer;" 
+        class="dropdown-toggle" 
+        data-toggle="dropdown" 
+        role="button">{{ isAuthenticated ? 'Tabs' : 'Authenticate' }}</a>       
+      <ul style="border-color: whitesmoke"
+          class="dropdown-menu bg-dark" 
+          [ngClass]="{'show':tab.isOpen}">
+        <li 
+          class="nav-item"
+          routerLinkActive="active"
+          *ngIf="isAuthenticated && !isLoadingOrSaving && !isLoadingOrSaving && currentTallyBookName != 'Tally Book'"
+          >
+          <a style="cursor: pointer; color: white" routerLink="/bha">BHA</a>
+        </li>   
+        <li
+          routerLinkActive="active"
+          *ngIf="isAuthenticated && !isLoadingOrSaving && currentTallyBookName != 'Tally Book' && !isLoadingOrSaving">
+          <a style="cursor: pointer; color: white" routerLink="/tally">Tally</a>
+        </li>
+        <li
+          routerLinkActive="active"
+          *ngIf="isAuthenticated && !isLoadingOrSaving && currentTallyBookName != 'Tally Book'">
+          <a style="cursor: pointer; color: white" routerLink="/surveys">Surveys</a>
+        </li>
+        <!-- <li
+          routerLinkActive="active"
+          *ngIf="isAuthenticated && sharedPlotDataUpdated && !isLoadingOrSaving && currentTallyBookName != 'Tally Book'">
+          <a style="cursor: pointer; color: white" routerLink="/plots">Plots</a>
+        </li> -->
+        <li
+          routerLinkActive="active"
+          *ngIf="isAuthenticated && !isLoadingOrSaving && currentTallyBookName != 'Tally Book'">
+          <a style="cursor: pointer; color: white" routerLink="/plots">Plots</a>
+        </li>
+        <li
+          routerLinkActive="active"
+          *ngIf="isAuthenticated && !isLoadingOrSaving && currentTallyBookName != 'Tally Book'">
+          <a style="cursor: pointer; color: white" routerLink="/plans">Plans</a>
+        </li>
+        <li 
+          routerLinkActive="active"
+          *ngIf="isAuthenticated && !isLoadingOrSaving && currentTallyBookName != 'Tally Book'">
+          <a style="cursor: pointer; color: white" routerLink="/activities">Activities</a>
+        </li>         
+        <li 
+          routerLinkActive="active"
+          *ngIf="isAuthenticated && !isLoadingOrSaving && currentTallyBookName != 'Tally Book'">
+          <a style="cursor: pointer; color: white" routerLink="/notes">Notes</a>
+        </li>    
+        <li 
+          routerLinkActive="active"
+          *ngIf="isAuthenticated && !isLoadingOrSaving">
+          <a style="cursor: pointer; color: white" routerLink="/models">Models</a>
+        </li>   
+        <li 
+          routerLinkActive="active"
+          *ngIf="isAuthenticated">
+          <a style="cursor: pointer; color: white" (click)="onLogout()">Logout</a>
+        </li>   
+        <li
+          routerLinkActive="active"
+          *ngIf="!isAuthenticated">
+            <a style="cursor: pointer; color: white" routerLink="/auth">Authenticate</a>
+        </li>
+      </ul>   
+    </li>
+    
+    <div *ngIf="isLoadingOrSaving" style="text-align: center">
+      <app-loading-spinner></app-loading-spinner>            
+    </div>
+
+    <!-- <ul class="nav navbar-nav ml-auto">       -->
+      <li style="padding: 1px" 
+        class="dropdown" 
+        appDropdown #tb="appDropdown"
+        *ngIf="isAuthenticated">
+    <!-- <li class="dropdown"> -->
+        <a style=" color: whitesmoke; cursor: pointer;" 
+          class="dropdown-toggle" 
+          data-toggle="dropdown"  
+          role="button">
+          {{ currentTallyBookName }} <span class="caret"></span></a>
+        <ul style="border-color: whitesmoke" 
+            class="dropdown-menu bg-dark" 
+            [ngClass]="{'show':tb.isOpen}">          
+          <!-- <ul style="border-color: whitesmoke" class="dropdown-menu bg-dark" > -->
+          <li *ngIf="!isLoadingOrSaving">
+            <a
+              style=" color: whitesmoke; cursor: pointer;"
+              (click)="onNewTallyBook()">
+              New Tally Book
+            </a>
+          </li>
+          <li *ngIf="!isLoadingOrSaving">
+            <a 
+              style=" color: whitesmoke; cursor: pointer;"
+              *ngIf="currentTallyBookName != 'Tally Book' && !readOnlyAccess"
+              (click)="onSaveTallyBook()">
+              Save Tally Book
+            </a>
+          </li>
+          <!-- <li>
+            <a 
+              style=" color: whitesmoke; cursor: pointer;"
+              (click)="onTransformUserInfo()">
+              Transform User Info
+            </a>
+          </li> -->         
+          <li *ngIf="!isLoadingOrSaving">
+            <a 
+              style=" color: whitesmoke; cursor: pointer;"
+              *ngIf="currentTallyBookName != 'Tally Book' && isAdmin"
+              (click)="onDeleteTallyBook()">
+              Delete Tally Book
+            </a>
+          </li>
+          <!-- <li>
+            <a 
+              style=" color: whitesmoke; cursor: pointer;"
+              *ngIf="currentTallyBookName != 'Tally Book' && isAdmin"
+              routerLink="/tallyBook/edit">
+              Change Tally Book Name
+            </a>
+          </li> -->
+          <li *ngIf="!isLoadingOrSaving">
+            <a 
+              style=" color: whitesmoke; cursor: pointer;"
+              *ngIf="(currentTallyBookName != 'Tally Book') && isAdmin"
+              (click)="onShareUnshareTallyBook()">
+              Share/Unshare Tally Book
+            </a>
+          </li>
+          <li *ngIf="!isLoadingOrSaving">
+            <a 
+              style=" color: whitesmoke; cursor: pointer;"
+              *ngIf="currentTallyBookName != 'Tally Book'"
+              (click)="onCloseTallyBook()">
+              Close Tally Book
+            </a>
+          </li>
+          <li *ngIf="!isLoadingOrSaving">
+            <a 
+              style=" color: whitesmoke; cursor: pointer;"
+              *ngIf="currentTallyBookName == 'Tally Book'"
+              (click)=onSaveModels()>
+              Save Models
+            </a>
+          </li>
+          <li *ngIf="!isLoadingOrSaving">
+            <a 
+              style=" color: whitesmoke; cursor: pointer;"
+              *ngIf="currentTallyBookName != 'Tally Book'"
+              (click)="onUpdatePlotData()">
+              Update Plot Data
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li style="padding: 10px" 
+        class="dropleft" 
+        appDropdown #r="appDropdown"
+        *ngIf="isAuthenticated">
+    <!-- <li class="dropdown"> -->
+        <a style=" color: whitesmoke; cursor: pointer;" 
+          class="dropdown-toggle" 
+          data-toggle="dropdown" 
+          role="button">
+          My <span class="caret"></span></a>
+          <ul style="border-color: whitesmoke" 
+              class="dropdown-menu bg-dark" 
+              [ngClass]="{'show':r.isOpen}" >
+            <!-- <ul style="border-color: whitesmoke" class="dropdown-menu bg-dark" > -->     
+            <!-- <li *ngFor="let tallyBook of tallyBookList | keyvalue | orderby: tallyBookList.tallyBook">
+              <a 
+                style="cursor: pointer; color: white" 
+                (click)="onFetchTallyBook(tallyBook.key)">
+                {{ tallyBook.key }}
+              </a>
+            </li>
+          </ul> -->
+        <!-- <ul style="border-color: whitesmoke" 
+            class="dropdown-menu bg-dark" 
+            [ngClass]="{'show':r.isOpen}" > -->
+          <!-- <li *ngFor="let tallyBook of tallyBookList | keyvalue">
+            <a 
+              style="cursor: pointer; color: white" 
+              (click)="onFetchTallyBook(tallyBook.key)">
+              {{ tallyBook.key }}
+            </a>
+          </li> -->
+          <li *ngFor="let tallyBook of tallyBookListArray">
+            <a 
+              style="cursor: pointer; color: white" 
+              (click)="onFetchTallyBook(tallyBook)">
+              {{ tallyBook }}
+            </a>
+          </li>
+        </ul>
+      </li> 
+  </nav>
+</div>
+<!-- Desktop/Tablet Resolution -->
+<div *ngIf="!mobileResolution">
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <!-- <div *ngIf="isLoadingOrSaving" style="text-align: center">
+      <app-loading-spinner></app-loading-spinner>            
+    </div> -->
+      <a class="navbar-brand" href="#">Tally Book</a>  
+      <ul class="nav navbar-nav">
+        <li 
+          class="nav-item"
+          routerLinkActive="active"
+          *ngIf="isAuthenticated && !isLoadingOrSaving && currentTallyBookName != 'Tally Book'"
+          >
+          <a style="padding: 10px" routerLink="/bha">BHA</a>
+        </li>        
+        <li
+          routerLinkActive="active"
+          *ngIf="isAuthenticated && !isLoadingOrSaving && currentTallyBookName != 'Tally Book'">
+          <a style="padding: 10px" routerLink="/tally">Tally</a>
+        </li>
+        <li
+          routerLinkActive="active"
+          *ngIf="isAuthenticated && !isLoadingOrSaving && currentTallyBookName != 'Tally Book'">
+          <a style="padding: 10px" routerLink="/surveys">Surveys</a>
+        </li>
+        <!-- <li
+          routerLinkActive="active"          
+          *ngIf="isAuthenticated && sharedPlotDataUpdated && !isLoadingOrSaving && currentTallyBookName != 'Tally Book'"> -->
+          <!-- <a [ngClass]="{'disabled': !sharedPlotDataUpdated}" style="cursor: pointer; " routerLink="/plots">Plots</a> -->
+          <!-- <a  style="cursor: pointer; " routerLink="/plots">Plots</a>
+        </li> -->
+        <li
+          routerLinkActive="active"          
+          *ngIf="isAuthenticated && !isLoadingOrSaving && currentTallyBookName != 'Tally Book'">
+          <!-- <a [ngClass]="{'disabled': !sharedPlotDataUpdated}" style="cursor: pointer; " routerLink="/plots">Plots</a> -->
+          <a  style="cursor: pointer; " routerLink="/plots">Plots</a>
+        </li>
+        <li
+          routerLinkActive="active"
+          *ngIf="isAuthenticated && !isLoadingOrSaving && currentTallyBookName != 'Tally Book'">
+          <a style="padding: 10px" routerLink="/plans">Plans</a>
+        </li>
+        <li 
+          routerLinkActive="active"
+          *ngIf="isAuthenticated && !isLoadingOrSaving && currentTallyBookName != 'Tally Book'">
+          <a style="padding: 10px" routerLink="/activities">Activities</a>
+        </li>         
+        <li 
+          routerLinkActive="active"
+          *ngIf="isAuthenticated && !isLoadingOrSaving && currentTallyBookName != 'Tally Book'">
+          <a style="padding: 10px" routerLink="/notes">Notes</a>
+        </li>    
+        <li 
+          routerLinkActive="active"
+          *ngIf="isAuthenticated && !isLoadingOrSaving">
+          <a style="padding: 10px" routerLink="/models">Models</a>
+        </li>       
+        <li
+          routerLinkActive="active"
+          *ngIf="!isAuthenticated">
+            <a routerLink="/auth">Authenticate</a>
+        </li>  
+      </ul>   
+
+      <div *ngIf="isLoadingOrSaving" style="text-align: center">
+        <app-loading-spinner></app-loading-spinner>            
+      </div>
+
+      <ul class="nav navbar-nav ml-auto">      
+        <li style="padding: 10px" 
+          class="dropdown" 
+          appDropdown #r="appDropdown"
+          *ngIf="isAuthenticated">
+      <!-- <li class="dropdown"> -->
+          <a style=" color: whitesmoke; cursor: pointer;" 
+            class="dropdown-toggle" 
+            data-toggle="dropdown" 
+            role="button">
+            {{ currentTallyBookName }} <span class="caret"></span></a>
+          <ul style="border-color: whitesmoke" 
+              class="dropdown-menu bg-dark" 
+              [ngClass]="{'show':r.isOpen}">          
+            <!-- <ul style="border-color: whitesmoke" class="dropdown-menu bg-dark" > -->
+            <li *ngIf="!isLoadingOrSaving">
+              <a
+                style=" color: whitesmoke; cursor: pointer;"
+                (click)="onNewTallyBook()">
+                New Tally Book
+              </a>
+            </li>
+            <li *ngIf="!isLoadingOrSaving">
+              <a 
+                style=" color: whitesmoke; cursor: pointer;"
+                *ngIf="currentTallyBookName != 'Tally Book' && !readOnlyAccess"
+                (click)="onSaveTallyBook()">
+                Save Tally Book
+              </a>
+            </li>
+            <!-- <li>
+              <a 
+                style=" color: whitesmoke; cursor: pointer;"
+                (click)="onTransformUserInfo()">
+                Transform User Info
+              </a>
+            </li> -->
+            <!-- <li>
+              <a 
+                style=" color: whitesmoke; cursor: pointer;"
+                (click)="onTransformTallyBookListInfo()">
+                Transform TallyBookList Info
+              </a>
+            </li> -->
+            <!-- <li>
+              <a 
+                style=" color: whitesmoke; cursor: pointer;"
+                (click)="convertDailyActivities()">
+                Convert Daily Activities
+              </a>
+            </li> -->
+            <li *ngIf="!isLoadingOrSaving">
+              <a 
+                style=" color: whitesmoke; cursor: pointer;"
+                *ngIf="currentTallyBookName != 'Tally Book' && isAdmin"
+                (click)="onDeleteTallyBook()">
+                Delete Tally Book
+              </a>
+            </li>
+            <!-- <li>
+              <a 
+                style=" color: whitesmoke; cursor: pointer;"
+                *ngIf="currentTallyBookName != 'Tally Book' && isAdmin"
+                routerLink="/tallyBook/edit">
+                Change Tally Book Name
+              </a>
+            </li> -->
+            <li *ngIf="!isLoadingOrSaving">
+              <a 
+                style=" color: whitesmoke; cursor: pointer;"
+                *ngIf="(currentTallyBookName != 'Tally Book') && isAdmin"
+                (click)="onShareUnshareTallyBook()">
+                Share/Unshare Tally Book
+              </a>
+            </li>
+            <li *ngIf="!isLoadingOrSaving">
+              <a 
+                style=" color: whitesmoke; cursor: pointer;"
+                *ngIf="currentTallyBookName != 'Tally Book'"
+                (click)="onCloseTallyBook()">
+                Close Tally Book
+              </a>
+            </li>
+            <li *ngIf="!isLoadingOrSaving">
+              <a 
+                style=" color: whitesmoke; cursor: pointer;"
+                *ngIf="currentTallyBookName == 'Tally Book'"
+                (click)=onSaveModels()>
+                Save Models
+              </a>
+            </li>
+            <li *ngIf="!isLoadingOrSaving">
+              <a 
+                style=" color: whitesmoke; cursor: pointer;"
+                *ngIf="currentTallyBookName != 'Tally Book'"
+                (click)="onUpdatePlotData()">
+                Update Plot Data
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li style="padding: 10px" 
+          class="dropdown" 
+          appDropdown #r="appDropdown"
+          *ngIf="isAuthenticated">
+      <!-- <li class="dropdown"> -->
+          <a style=" color: whitesmoke; cursor: pointer;" 
+            class="dropdown-toggle" 
+            data-toggle="dropdown" 
+            role="button">
+            Change Tally Book <span class="caret"></span></a>
+          <ul style="border-color: whitesmoke" 
+              class="dropdown-menu bg-dark" 
+              [ngClass]="{'show':r.isOpen}" >
+            <!-- <ul style="border-color: whitesmoke" class="dropdown-menu bg-dark" > -->     
+            <!-- <li *ngFor="let tallyBook of tallyBookList | keyvalue | orderby: tallyBookList.tallyBook"> -->
+              <!-- <li *ngFor="let tallyBook of tallyBookList | keyvalue ">
+              <a 
+                style="cursor: pointer; color: white" 
+                (click)="onFetchTallyBook(tallyBook.key)">
+                {{ tallyBook.key }}
+              </a> -->
+              <li *ngFor="let tallyBook of tallyBookListArray ">
+                <a 
+                  style="cursor: pointer; color: white" 
+                  (click)="onFetchTallyBook(tallyBook)">
+                  {{ tallyBook }}
+                </a>
+            </li>
+          </ul>
+        </li>
+        <li style= "padding: 10px; color: white" 
+            *ngIf="isAuthenticated">
+            <a style="cursor: pointer;" (click)="onLogout()">Logout</a>
+        </li>      
+      </ul>
+  </nav>
+</div>

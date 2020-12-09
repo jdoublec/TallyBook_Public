@@ -1,0 +1,94 @@
+<div class="row">
+    <style>
+        label {
+            color: lightgray;
+        }
+        input {
+            background-color: lightgray;
+        }
+    </style>   
+    <div class="col-md-6">           
+        <div class="col-xs-12"> 
+            <div class="row">    
+                <div class="col-sm-12 form-group">
+                    <label for="email">EMail to Share With: </label>
+                    <input
+                        type="email" 
+                        id="userName" 
+                        class="form-control"
+                        [(ngModel)]="userEmail"
+                        (keyup)="isUserAlreadyMember()"
+                        email>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <div class="ml-3" style="text-align: center">
+                            <button 
+                                class="btn btn-primary"
+                                type="button"           
+                                (click)="onShareUnshareTallyBook()"
+                                [disabled]="!validUserEmail">
+                                {{ isAlreadySharedWithMember ? 'Unshare Tally Book' : 'Share Tally Book' }}
+                            </button>
+                            <label style="padding-left: 15px; padding-right: 15px;">Read Access</label>        
+                                <input
+                                    type="radio"
+                                    name="access"             
+                                    [(ngModel)]="readAccess"
+                                    [value]="true">
+                                <label style="padding-left: 15px; padding-right: 5px;">Read/WriteAccess</label>
+                                <input
+                                    type="radio"
+                                    name="access"
+                                    [(ngModel)]="readAccess"
+                                    [value]="false"> 
+                        </div> 
+                    </div>  
+                </div>  
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="col-xs-6">    
+            <div class="col-sm-12 form-group"> 
+                <div class="row">
+                    <style>th, td {
+                            border: 1px solid;
+                            border-color: rgba(211, 211, 211, 0.424);
+                            width: 10%;
+                            text-align: center;
+                    }
+                    </style>      
+                    <table class="table table-dark"
+                            style="table-layout: fixed; border: 1px solid; border-color: rgba(211, 211, 211, 0.424)">                        
+                        <thead>
+                            <tr>
+                                <th colspan="2">Current Members</th>
+                            </tr>
+                            <tr>
+                                <th>E-Mail</th>
+                                <th>Access</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                style="cursor: pointer"         
+                                *ngFor="let member of members['readers'] | keyvalue"
+                                (click)="onSelectCurrentMember(member.value, true)">
+                                <td>{{ member.value }}</td> 
+                                <td>read</td>
+                            </tr>
+                            <tr
+                                style="cursor: pointer"         
+                                *ngFor="let member of members['writers'] | keyvalue"
+                                (click)="onSelectCurrentMember(member.value, false)">
+                                <td>{{ member.value }}</td> 
+                                <td>read/write</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  

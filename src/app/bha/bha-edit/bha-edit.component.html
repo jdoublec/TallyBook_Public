@@ -1,0 +1,243 @@
+
+    <div class="col-12 col-xs-12 form-group">
+        <div class="row">
+            <div class="ml-3">
+                <button 
+                    type="submit" 
+                    class="btn btn-sm btn-success"                        
+                    [disabled]="!bhaValid"
+                    (click)="onSave()"
+                    >Save</button>
+                <a style="color: white"> | </a>
+                <button 
+                    type="button" 
+                    class="btn btn-sm btn-danger"
+                    (click)="onCancel()"
+                    >Cancel</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 form-group">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input 
+                        type="text"
+                        id="name"                            
+                        class="form-control"
+                        [(ngModel)]="bhaName"
+                        (change)="onBHAChanged()">
+                </div>
+            </div>
+            <div class="col-sm-3 form-group">
+                <div class="form-group">
+                    <label>Offset</label>
+                    <input 
+                        type="number"
+                        id="offset"
+                        class="form-control"
+                        [(ngModel)]="bhaOffset"
+                        (change)="onBHAChanged()">
+                </div>
+            </div>                    
+            <div class="col-sm-3 form-group">
+                <div class="form-group">
+                    <label>Start Depth</label>
+                    <input 
+                        type="number"
+                        id="startDepth"
+                        class="form-control"
+                        [(ngModel)]="bhaStartDepth"
+                        (change)="onBHAChanged()">
+                </div>
+            </div>
+            <div class="col-sm-3 form-group">
+                <div class="form-group">
+                    <label>End Depth</label>
+                    <input 
+                        type="number"
+                        id="endDepth"
+                        class="form-control"
+                        [(ngModel)]="bhaEndDepth"
+                        (change)="onBHAChanged()">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 form-group">
+                    <div class="form-group">
+                        <label>Section</label>
+                        <input 
+                            type="text"
+                            id="section"
+                            class="form-control"
+                            [(ngModel)]="bhaSection"
+                            (change)="onBHAChanged()">
+                    </div>
+                </div>         
+            <div class="col-sm-4 form-group">
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input
+                        type="date"
+                        id="startDate"
+                        class="form-control"
+                        [ngModel]="bhaStartDate | date: 'yyyy-MM-dd'"
+                        (ngModelChange)="bhaStartDate=$event"
+                        [value]="bhaStartDate"
+                        (change)="onBHAChanged()">
+                </div>
+            </div>
+            <div class="col-sm-4 form-group">
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input
+                        type="date"
+                        id="endDate"
+                        class="form-control"
+                        [ngModel]="bhaEndDate | date: 'yyyy-MM-dd'"
+                        (ngModelChange)="bhaEndDate=$event"
+                        [value]="bhaEndDate"
+                        (change)="onBHAChanged()">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-xs-12 form-group">
+        <div class="row">
+            <div class="ml-3">
+                <button 
+                    type="button"
+                    class="btn btn-sm btn-success" 
+                    (click)="onAddUpdateItem()"
+                    [disabled]="!okToUpdateAddItem"
+                    >{{ editItemMode ? 'Update Item' : 'Add Item' }}</button>                          
+                <a style="color: white"> | </a>     
+                <button 
+                    type="button"
+                    class="btn btn-sm btn-danger"
+                    [disabled]="!editItemMode"
+                    (click)="onDeleteItem()">Delete Item</button>                               
+                <a style="color: white"> | </a>
+                <button 
+                    type="button"
+                    class="btn btn-sm btn-primary"
+                    (click)="onClearItemInput()">Clear Item</button>        
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 form-group">
+                <div class="form-group">
+                    <label>Item</label>
+                    <input 
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="itemName"
+                        (change)="onItemInputValueChanged()">
+                </div>
+            </div>
+            <div class="col-sm-4 form-group">
+                <div class="form-group">
+                    <label>S/N</label>
+                    <input 
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="itemSN"
+                        (change)="onItemInputValueChanged()">
+                </div>
+            </div>
+            <div class="col-sm-4 form-group">
+                <div class="form-group">
+                    <label>Model</label>
+                    <!-- <input 
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="itemModel"
+                        (change)="onItemInputValueChanged()"> -->
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        list="models"
+                        autocomplete="on"
+                        [(ngModel)]="itemModel"
+                        (change)="onModelValueChanged()">
+                        <datalist 
+                            id="models">
+                                <option 
+                                *ngFor="let model of models; let i = index"
+                                >{{ model.model }}</option>
+                        </datalist>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 form-group">
+                <div class="form-group">
+                    <label>I.D.</label>
+                    <input 
+                        type="number"
+                        class="form-control"
+                        [(ngModel)]="itemID"
+                        (change)="onItemInputValueChanged()">
+                </div>
+            </div>
+            <div class="col-sm-4 form-group">
+                <div class="form-group">
+                    <label>O.D.</label>
+                    <input 
+                        type="number"
+                        class="form-control"
+                        [(ngModel)]="itemOD"
+                        (change)="onItemInputValueChanged()">
+                </div>
+            </div>
+            <div class="col-sm-4 form-group">
+                <div class="form-group">
+                    <label>Length</label>
+                    <input 
+                        type="number"
+                        class="form-control"
+                        [(ngModel)]="itemLength"
+                        (change)="onItemInputValueChanged()">
+                </div>
+            </div>
+        </div>        
+        <div class="row">                           
+            <table class="table table-dark"
+                style="border: 1px solid; color: lightgray; border-color: lightgray;">
+                <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>S/N</th>
+                        <th>Model</th>
+                        <th>I.D.</th>
+                        <th>O.D.</th>
+                        <th>Length</th>
+                        <th>Accum.</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="!newBHA">
+                    <tr
+                        style="cursor: pointer"  
+                        *ngFor="let bhaItem of bha.items; let i = index"
+                        (click)="onEditItem(i)">
+                        <td *ngIf="!hasSpecSheet(i)">{{ bhaItem.name }}</td>
+                        <td *ngIf="hasSpecSheet(i)">
+                            <a href="{{ bhaItem.specSheetPath }}"
+                                target="_blank">
+                                {{ bhaItem.name }}
+                            </a>
+                        </td>  
+                        <td>{{ bhaItem.sn }}</td>
+                        <td>{{ bhaItem.model }}</td>
+                        <td>{{ bhaItem.id }}</td>
+                        <td>{{ bhaItem.od }}</td>
+                        <td>{{ bhaItem.length }}</td>
+                        <td>{{ getAccumLength(i) | formatDecimal }}</td>
+                    </tr>
+                </tbody>
+            </table>
+                <!-- </div> -->
+        </div>
+    </div>
+    

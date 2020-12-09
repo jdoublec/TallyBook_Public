@@ -1,0 +1,513 @@
+<!-- Mobile Resolution -->
+<div *ngIf="!readOnlyAccess">
+    <div *ngIf="mobileResolution">
+        <div class="col-12 col-xl-12 form-group">  
+            <style>
+                    label {
+                        color: white;
+                    }
+                    input {
+                        background-color: lightgray;
+                    }
+            </style>
+            <div class="row">                
+                <div class="col-xl-12 form-group">
+                    <div class="row">
+                        <div class="col-6 col-sm-6 form-group"> 
+                            <label>MD</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="md"
+                                min="0"
+                                placeholder="Plan Depth"
+                                class="form-control"
+                                #planMD
+                                [(ngModel)]="mdValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div class="col-6 col-sm-6 form-group">
+                            <label>Inc</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                min="0"
+                                id="inc"
+                                class="form-control"
+                                [(ngModel)]="incValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div class="col-6 col-sm-6 form-group">
+                            <label>Azm</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="azm"
+                                min="0"
+                                class="form-control"
+                                [(ngModel)]="azmValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div [className]="editTieOnMode ? 'col-6 col-sm-6 form-group' : 'd-none'">
+                            <label>TVD</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="north"
+                                min="0"
+                                placeholder="tie-on TVD"
+                                class="form-control"
+                                #planMD
+                                [(ngModel)]="tvdValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div [className]="editTieOnMode ? 'col-6 col-sm-6 form-group' : 'd-none'">
+                            <label>North</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="north"
+                                min="0"
+                                placeholder="tie-on North"
+                                class="form-control"
+                                #planMD
+                                [(ngModel)]="northValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div [className]="editTieOnMode ? 'col-6 col-sm-6 form-group' : 'd-none'">
+                            <label>East</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                min="0"
+                                placeholder="tie-on East"
+                                id="east"
+                                class="form-control"
+                                [(ngModel)]="eastValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                    <!-- </div> -->
+                    <!-- <div class="row"> -->
+                        <!-- <div class="ml-3 form-group">         -->
+                        <div [className]="editTieOnMode ? 'col-6 col-sm-6 form-group' : 'd-none'">
+                            <label>VS Direction</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="vs"
+                                min="0"
+                                placeholder="VS Direction"
+                                class="form-control"
+                                [(ngModel)]="vsDirectionValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div [className]="editTieOnMode ? 'col-6 col-sm-6 form-group' : 'd-none'">
+                            <label>Northing</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="northing"
+                                min="0"
+                                placeholder="Northing"
+                                class="form-control"
+                                [(ngModel)]="northingValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div [className]="editTieOnMode ? 'col-6 col-sm-6 form-group' : 'd-none'">
+                            <label>Easting</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="easting"
+                                min="0"
+                                placeholder="Easting"
+                                class="form-control"
+                                [(ngModel)]="eastingValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div [className]="editTieOnMode ? 'col-6 col-sm-6 form-group' : 'd-none'">
+                            <label>Elevation</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="elevation"
+                                min="0"
+                                placeholder="Elevation"
+                                class="form-control"
+                                [(ngModel)]="elevationValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div [className]="editTieOnMode ? 'col-6 col-sm-6 form-group' : 'd-none'">
+                            <label>Ground Elevation</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="groundElevation"
+                                min="0"
+                                placeholder="Ground Elevation"
+                                class="form-control"
+                                [(ngModel)]="groundElevationValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div [className]="!editTieOnMode ? 'col-6 col-sm-6 form-group' : 'd-none'">
+                            <button 
+                                style="margin-bottom: 0px;" 
+                                class="btn btn-sm btn-success" 
+                                type="button" 
+                                (click)="onAddUpdatePlans()"
+                                [disabled]="!okToAddUpdatePlan"
+                                >{{ editMode ? 'Upd.' : 'Add' }}</button>
+                                <a style="color: white; margin: 5px">|</a>
+                            <button 
+                                style="margin-bottom: 0px;" 
+                                class="btn btn-sm btn-danger" 
+                                type="button"
+                                [disabled]="!editMode"
+                                (click)=onDeletePlan()>Del</button>
+                            <!-- <a style="color: white; margin: 5px">{{ editTieOnMode ? '|' : ''}}</a> -->
+                            <div [className]="!editTieOnMode ? 'row' : ''" style="margin-bottom: 8px; margin-top: 8px;">
+                                <button 
+                                    style="margin-top: 0px; margin-left: 14px;" 
+                                    class="btn btn-sm btn-primary" 
+                                    type="button"
+                                    (click)="onClearInput()">Clr</button>
+                                    <a style="color: white; margin: 5px">|</a>
+                                <div 
+                                    class="btn-group"
+                                    appDropdown
+                                    #views="appDropdown">                  
+                                    <button 
+                                        style="margin-top: 0px;"  
+                                        class="btn btn-sm btn-info" 
+                                        type="button"
+                                        data-toggle="dropdown" 
+                                        role="button">Views</button>                                
+                                    <ul style="border-color: whitesmoke"
+                                        class="dropdown-menu bg-dark" 
+                                        [ngClass]="{'show':views.isOpen}">
+                                        <li>
+                                            <a style="cursor: pointer; color: white" 
+                                            (click)="viewChanged('all')">All</a>
+                                        </li>   
+                                        <li>
+                                            <a style="cursor: pointer; color: white" 
+                                            (click)="viewChanged('dls')">DLS</a>
+                                        </li>                                      
+                                        <li>
+                                            <a style="cursor: pointer; color: white" 
+                                            (click)="viewChanged('ne')">NE</a>
+                                        </li>  
+                                        <li>
+                                            <a style="cursor: pointer; color: white" 
+                                            (click)="scrollPlansToBottom(true)">Scroll</a>
+                                        </li> 
+                                        <li>
+                                            <a style="cursor: pointer; color: white" 
+                                            (click)="viewChanged('tvd')">TVD</a>
+                                        </li>                                       
+                                        <li>
+                                            <a style="cursor: pointer; color: white" 
+                                            (click)="viewChanged('vs')">VS</a>
+                                        </li>  
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>       
+                        <div [className]="editTieOnMode ? 'col-12 col-sm-12 form-group' : 'd-none'">
+                            <button 
+                                style="margin-bottom: 0px;" 
+                                class="btn btn-sm btn-success" 
+                                type="button" 
+                                (click)="onAddUpdatePlans()"
+                                [disabled]="!okToAddUpdatePlan"
+                                >{{ editMode ? 'Upd.' : 'Add' }}</button>
+                            <a style="color: white"> | </a>
+                            <button 
+                                style="margin-bottom: 0px;" 
+                                class="btn btn-sm btn-danger" 
+                                type="button"
+                                [disabled]="!editMode"
+                                (click)=onDeletePlan()>Delete</button>
+                            <a style="color: white"> | </a>
+                            <button 
+                                style="margin-top: 0px" 
+                                class="btn btn-sm btn-primary" 
+                                type="button"
+                                (click)="onClearInput()">Clear</button>
+                            <a style="color: white"> | </a>
+                            <button 
+                                style="margin-top: 0px;"  
+                                class="btn btn-sm btn-info" 
+                                type="button"
+                                (click)="scrollPlansToBottom(true)">vvv</button>
+                        </div>                                      
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Destop/Tablet Resolution -->
+    <div *ngIf="!mobileResolution">
+        <div class="col-12 col-xl-12 form-group">  
+            <style>
+                    label {
+                        color: white;
+                    }
+                    input {
+                        background-color: lightgray;
+                    }
+            </style>
+            <div class="row">                
+                <div class="col-xl-12 form-group">
+                    <div class="row">
+                        <div class="col-6 col-sm-2 form-group">
+                            <label>MD</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="md"
+                                min="0"
+                                placeholder="Plan Depth"
+                                class="form-control"
+                                #planMD
+                                [(ngModel)]="mdValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div class="col-6 col-sm-2 form-group">
+                            <label>Inc</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                min="0"
+                                id="inc"
+                                class="form-control"
+                                [(ngModel)]="incValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div class="col-6 col-sm-2 form-group">
+                            <label>Azm</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="azm"
+                                min="0"
+                                class="form-control"
+                                [(ngModel)]="azmValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div [className]="editTieOnMode ? 'col-6 col-sm-2 form-group' : 'd-none'">
+                            <label>TVD</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="north"
+                                min="0"
+                                placeholder="tie-on TVD"
+                                class="form-control"
+                                #planMD
+                                [(ngModel)]="tvdValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div [className]="editTieOnMode ? 'col-6 col-sm-2 form-group' : 'd-none'">
+                            <label>North</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="north"
+                                min="0"
+                                placeholder="tie-on North"
+                                class="form-control"
+                                #planMD
+                                [(ngModel)]="northValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div [className]="editTieOnMode ? 'col-6 col-sm-2 form-group' : 'd-none'">
+                            <label>East</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                min="0"
+                                placeholder="tie-on East"
+                                id="east"
+                                class="form-control"
+                                [(ngModel)]="eastValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- <div class="ml-3 form-group">         -->
+                        <div class="col-12 col-sm-12 form-group">
+                            <button 
+                                class="btn btn-sm btn-success" 
+                                type="button" 
+                                (click)="onAddUpdatePlans()"
+                                [disabled]="!okToAddUpdatePlan"
+                                >{{ editMode ? 'Update' : 'Add' }}</button>
+                            <a style="color: white"> | </a>
+                            <button 
+                                class="btn btn-sm btn-danger" 
+                                type="button"
+                                [disabled]="!editMode"
+                                (click)=onDeletePlan()>Delete</button>
+                            <a style="color: white"> | </a>
+                            <button 
+                                class="btn btn-sm btn-primary" 
+                                type="button"
+                                (click)="onClearInput()">Clear</button>
+                            <a style="color: white"> | </a>
+                            <button 
+                                class="btn btn-sm btn-info" 
+                                type="button"
+                                (click)="scrollPlansToBottom(true)">vvv</button>
+                        </div>            
+                        <div [className]="editTieOnMode ? 'col-6 col-sm-2 form-group' : 'd-none'">
+                            <label>VS Direction</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="vs"
+                                min="0"
+                                placeholder="VS Direction"
+                                class="form-control"
+                                [(ngModel)]="vsDirectionValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div [className]="editTieOnMode ? 'col-6 col-sm-2 form-group' : 'd-none'">
+                            <label>Northing</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="northing"
+                                min="0"
+                                placeholder="Northing"
+                                class="form-control"
+                                [(ngModel)]="northingValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div [className]="editTieOnMode ? 'col-6 col-sm-2 form-group' : 'd-none'">
+                            <label>Easting</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="easting"
+                                min="0"
+                                placeholder="Easting"
+                                class="form-control"
+                                [(ngModel)]="eastingValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div [className]="editTieOnMode ? 'col-6 col-sm-2 form-group' : 'd-none'">
+                            <label>Elevation</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="elevation"
+                                min="0"
+                                placeholder="Elevation"
+                                class="form-control"
+                                [(ngModel)]="elevationValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                        <div [className]="editTieOnMode ? 'col-6 col-sm-2 form-group' : 'd-none'">
+                            <label>Ground Elevation</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="groundElevation"
+                                min="0"
+                                placeholder="Ground Elevation"
+                                class="form-control"
+                                [(ngModel)]="groundElevationValue"
+                                (keyup)="onPlanInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed()">
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div [className]="mobileResolution ? 'col-ml-12' : 'col-xl-12 form-group'">
+    <div class="row">    
+        <div class="col-sm-12 form-group">
+            <div class=" table table-container bg-dark table-responsive"                 
+                 (paste)="onPaste($event)">
+                <div class="inner-container" #scrollPlans [ngStyle]="{'height.px': tableHeight}">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th [className]="tableView == 'all' ? '' : 'd-none'">Cnt</th>
+                                <th>MD</th>
+                                <th>Inc</th>
+                                <th>Azm</th>
+                                <th [className]="tableView == 'all' ||
+                                                 tableView == 'tvd' ? '' : 'd-none'">TVD</th>
+                                <th [className]="tableView == 'all' ||
+                                                 tableView == 'ne' ? '' : 'd-none'">North</th>
+                                <th [className]="tableView == 'all' ||
+                                                 tableView == 'ne' ? '' : 'd-none'">East</th>
+                                <th [className]="tableView == 'all' ||
+                                                 tableView == 'vs' ? '' : 'd-none'">VS</th>
+                                <th [className]="tableView == 'all' ? '' : 'd-none'">TF</th>
+                                <th [className]="tableView == 'all' || 
+                                                 tableView == 'dls' ? '' : 'd-none'">DLS</th>     
+                                <th [className]="tableView == 'all' ? '' : 'd-none'">Elevation</th> 
+                                <th [className]="tableView == 'all' ? '' : 'd-none'">Northing</th>
+                                <th [className]="tableView == 'all' ? '' : 'd-none'">Easting</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                style="cursor: pointer; "
+                                *ngFor="let plan of plans; let i = index; let last = last"
+                                (click)="onEditPlan(i)"
+                                [ngClass]="{'active': plan.md === selectedMD}">
+                                <td [className]="tableView == 'all' ? '' : 'd-none'">{{ i }}</td> 
+                                <td>{{ plan.md | formatDecimal }}</td>
+                                <td>{{ plan.inc | formatDecimal }}</td>
+                                <td>{{ plan.azm | formatDecimal }}</td>
+                                <td [className]="tableView == 'all' ||
+                                                 tableView == 'tvd' ? '' : 'd-none'">{{ plan.tvd | formatDecimal }}</td>
+                                <td [className]="tableView == 'all' ||
+                                                 tableView == 'ne' ? '' : 'd-none'">{{ plan.north | formatDecimal }}</td>
+                                <td [className]="tableView == 'all' ||
+                                                 tableView == 'ne' ? '' : 'd-none'">{{ plan.east | formatDecimal }}</td>
+                                <td [className]="tableView == 'all' ||
+                                                 tableView == 'vs' ? '' : 'd-none'">{{ plan.vs | formatDecimal }}</td>   
+                                <td [className]="tableView == 'all' ? '' : 'd-none'">{{ plan.survTF | formatDecimal }}</td>                           
+                                <td [className]="tableView == 'all' || 
+                                                 tableView == 'dls' ? '' : 'd-none'">{{ plan.dls | formatDecimal }}</td>  
+                                <td [className]="tableView == 'all' ? '' : 'd-none'">{{ plan.elevation | formatDecimal }}</td> 
+                                <td [className]="tableView == 'all' ? '' : 'd-none'">{{ plan.northing | formatDecimal }}</td> 
+                                <td [className]="tableView == 'all' ? '' : 'd-none'">{{ plan.easting | formatDecimal }}</td> 
+                                {{ last ? scrollPlansToBottom() : '' }}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>      
+    </div>
+</div>

@@ -1,0 +1,357 @@
+<!-- Mobile Resolution -->
+<div *ngIf="!readOnlyAccess">    
+    <!-- <div class="alert alert-dark" *ngIf="deleteAllMessage">
+        "Delete All Tally?  Press escape if no!!!!"
+        </div> -->
+        <!-- <app-alert 
+            [message]="deletAllMessage" 
+            *ngIf="deleteAllMessage" 
+            (close)="onDeleteAll()"
+            (esc)="onDeleteNone()">"Delete All Tally?  Press escape if no!!!!"</app-alert> -->
+
+    <div class="alert alert-dark" role="alert" *ngIf="deleteAllMessage">                
+        {{ deleteAllMessage }}
+        <button (click)="onDeleteAll(true)">Delete All</button>
+        <button (click)="onDeleteAll(false)">Cancel</button>
+    </div>
+    <div *ngIf="mobileResolution">
+        <div class="col-12 col-xs-12 form-group">
+            <style>
+                    label {
+                        color: white;
+                    }
+                    input {
+                        background-color: lightgray;
+                    }
+            </style>
+                <div class="col-12 col-xl-6 form-group">
+                    <div class="row">
+                        <div class="col-6 col-sm-6 form-group">
+                            <label>Length</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="length"
+                                min="0"
+                                placeholder="Length to Add"
+                                class="form-control"
+                                #length
+                                [(ngModel)]="lengthValue"
+                                (keyup)="onLengthChanged()"
+                                (keyup.enter)="onEnterKeyPressed(true)">
+                        </div>
+                        <div class="col-6 col-sm-6 form-group">
+                            <label>Offset</label>
+                            <input
+                                type="number"
+                                id="offset"
+                                min="0"
+                                required
+                                class="form-control"
+                                [(ngModel)]="offset"
+                                (keyup)="onOffsetChanged()"
+                                (keyup.enter)="onEnterKeyPressed(true)">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 0px; padding-bottom: 0px;">
+                        <div class="col-6 col-sm-6 form-group">
+                            <label>Start Value</label>
+                            <input
+                                type="number"                
+                                id="starting"
+                                min="0"
+                                required
+                                class="form-control"                
+                                [(ngModel)]="startingValue"
+                                (keyup)="onStartingValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed(true)">
+                        </div> 
+                        <div class="col-6 col-sm-6 form-group">
+                            <label>Rig Type</label>
+                                <select class="browser-default custom-select"
+                                required         
+                                autocomplete="on"                           
+                                [(ngModel)]="rigType"                                    
+                                (change)="onRigTypeChanged()">
+                                        <option 
+                                        *ngFor="let rigType of rigTypes; let i = index"
+                                        >{{ rigType }}</option>
+                                </select>
+                        </div> 
+                        <!-- <div class="ml-3 form-group"> -->
+                        <div class="col-6 col-xm-6 form-group">
+                            <button                           
+                                style="margin-bottom: 0px;"            
+                                class="btn btn-sm btn-success" 
+                                type="button" 
+                                (click)="onAddUpdateTally()"
+                                [disabled]="!okToAddUpdateTally"
+                                >{{ editTallyMode ? 'Upd.' : 'Add' }}</button>
+                            <a style="color: white; margin: 5px">|</a>
+                            <button       
+                                style="margin-bottom: 0px;"    
+                                class="btn btn-sm btn-danger" 
+                                type="button"
+                                [disabled]="!editTallyMode"
+                                (click)=onDeleteTally()
+                                >Del</button>
+                            <div class="row" style="margin-bottom: 8px; margin-top: 8px;">
+                            <!-- <hr style="padding-bottom: 0px; padding-top: 0px;"> -->
+                                <button     
+                                    style="margin-top: 0px; margin-left: 14px;"    
+                                    class="btn btn-sm btn-primary" 
+                                    type="button"
+                                    (click)="onClearInput()">Clr</button>
+                                <a style="color: white; margin: 5px">|</a>
+                                <button     
+                                    style="margin-top: 0px;"    
+                                    class="btn btn-sm btn-info" 
+                                    type="button"
+                                    (click)="scrollTallyToBottom(true)">vvv</button>
+                            </div>                    
+                        </div>
+                    </div> 
+                </div> 
+        </div>
+    </div>
+    <!-- Desktop/Tablet Resolution -->
+    <div *ngIf="!mobileResolution">
+        <div class="col-12 col-xl-12 form-group">  
+            <style>
+                    label {
+                        color: white;
+                    }
+                    input, select {
+                        background-color: lightgray;
+                    }
+            </style>
+            <div class="row">                
+                <div class="col-6 col-xl-6 form-group">
+                    <div class="row">
+                        <div class="col-12 col-sm-4 form-group">
+                            <label>Length</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="length"
+                                min="0"                        
+                                placeholder="Length to Add"
+                                class="form-control"
+                                #length
+                                [(ngModel)]="lengthValue"
+                                (keyup)="onLengthChanged()"
+                                (keyup.enter)="onEnterKeyPressed(true)">
+                        </div>
+                        <div class="col-12 col-sm-4 form-group">
+                            <label>Offset</label>
+                            <input
+                                type="number"
+                                id="offset"
+                                min="0"
+                                required
+                                class="form-control"
+                                [(ngModel)]="offset"
+                                (keyup)="onOffsetChanged()"
+                                (keyup.enter)="onEnterKeyPressed(true)">
+                        </div>
+                        <div class="col-12 col-sm-4 form-group">
+                            <label>Start Value</label>
+                            <input
+                                type="number"                
+                                id="starting"
+                                min="0"
+                                required
+                                class="form-control"                
+                                [(ngModel)]="startingValue"
+                                (keyup)="onStartingValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed(true)"                                
+                                (dblclick)="onDeleteAllSelected()">
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-6 col-sm-4 form-group">
+                            <label>Rig Type</label>
+                            <select class="browser-default custom-select"
+                                required         
+                                autocomplete="on"                           
+                                [(ngModel)]="rigType"                                    
+                                (change)="onRigTypeChanged()">
+                                    <option
+                                        *ngFor="let rigType of rigTypes; let i = index"
+                                    >{{ rigType }}</option>
+                            </select>
+                        </div> 
+                        <div class="ml-3 form-group">
+                            <button     
+                                class="btn btn-sm btn-success" 
+                                type="button" 
+                                (click)="onAddUpdateTally()"
+                                [disabled]="!okToAddUpdateTally"
+                                >{{ editTallyMode ? 'Update' : 'Add' }}</button>
+                            <a style="color: white"> | </a>
+                            <button 
+                                class="btn btn-sm btn-danger" 
+                                type="button"
+                                [disabled]="!editTallyMode"
+                                (click)="onDeleteTally()">Delete</button>
+                            <a style="color: white"> | </a>
+                            <button 
+                                class="btn btn-sm btn-primary" 
+                                type="button"
+                                (click)="onClearInput()">Clear</button>
+                            <a style="color: white"> | </a>
+                            <button 
+                                class="btn btn-sm btn-info" 
+                                type="button"
+                                (click)="scrollTallyToBottom(true)">vvv</button>
+                            <label style="padding-left: 15px; padding-right: 5px;">Tally/Survey View</label>
+                            <input
+                                type="checkbox"
+                                id="showTallySurveyView"
+                                [(ngModel)]="showTallySurveyView"
+                                (change)="onViewChanged()">
+                        </div>
+                    </div>
+                </div>
+                <div [className]="showTallySurveyView ? 'col-6 col-xl-6 form-group' : 'd-none'">
+                    <div class="row">
+                        <div class="col-4 col-sm-4 form-group">
+                            <label>MD</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="md"
+                                min="0"
+                                placeholder="Survey Depth"
+                                class="form-control"
+                                #surveyMD
+                                [(ngModel)]="mdValue"
+                                (keyup)="onSurveyInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed(false)">
+                        </div>
+                        <div class="col-4 col-sm-4 form-group">
+                            <label>Inc</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                min="0"
+                                id="inc"
+                                class="form-control"
+                                [(ngModel)]="incValue"
+                                (keyup)="onSurveyInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed(false)">
+                        </div>
+                        <div class="col-4 col-sm-4 form-group">
+                            <label>Azm</label>
+                            <input
+                                position=sticky
+                                type="number"
+                                id="azm"
+                                min="0"
+                                class="form-control"
+                                [(ngModel)]="azmValue"
+                                (keyup)="onSurveyInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed(false)">
+                        </div>
+                    </div>
+                    <div class="row">     
+                        <div class="ml-3 form-group">        
+                            <button 
+                                class="btn btn-sm btn-success" 
+                                type="button" 
+                                (click)="onAddUpdateSurveys()"
+                                [disabled]="!okToAddUpdateSurvey"
+                                >{{ editSurveyMode ? 'Update' : 'Add' }}</button>
+                            <a style="color: white"> | </a>
+                            <button 
+                                class="btn btn-sm btn-danger" 
+                                type="button"
+                                [disabled]="!editSurveyMode"
+                                (click)=onDeleteTally()>Delete</button>
+                            <a style="color: white"> | </a>
+                            <button 
+                                class="btn btn-sm btn-primary" 
+                                type="button"
+                                (click)="onClearInput()">Clear</button>
+                            <a style="color: white"> | </a>
+                            <button 
+                                class="btn btn-sm btn-info" 
+                                type="button"
+                                (click)="scrollSurveysToBottom(true)">vvv</button>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+<div  class="row">
+    <div [className]="showTallySurveyView ? 'col-sm-6 form-group' : 'col-sm-12 form-group'">
+        <div class=" table table-container bg-dark table-responsive"                
+                    (paste)="onPaste($event)">
+            <!-- <div class="inner-container" #scrollTally [ngClass]="{'resize':t.height}"> -->
+            <div class="inner-container" #scrollTally [ngStyle]="{'height.px': tableHeight}">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr>
+                            <th *ngIf="!mobileResolution">Cnt</th>
+                            <th>Len</th>
+                            <th>Std</th>
+                            <th>Total</th>
+                            <th>Surv</th>
+                        </tr>
+                    </thead> 
+                    <tbody>
+                        <tr
+                            style="cursor: pointer; "
+                            *ngFor="let tally of totalTally; trackBy: trackByCount; let i = index; let last = last"
+                            (click)="onEditTally(i)"
+                            [ngClass]="{'active': tally.total === selectedTotal}">
+                            <td *ngIf="!mobileResolution">{{ i + 1 }}</td> 
+                            <td>{{ tally.length }}</td>
+                            <td>{{ tally.stand }}</td>
+                            <td>{{ tally.total | formatDecimal }}</td>
+                            <td>{{ tally.survey | noDecimal }}</td>
+                            {{ last ? scrollTallyToBottom() : '' }}
+                        </tr>
+                    </tbody>
+                </table>
+            </div> 
+        </div>
+    </div>
+    <div [className]="showTallySurveyView ? 'col-sm-6 form-group' : 'd-none'">
+        <div class=" table table-container bg-dark table-responsive">
+            <div class="inner-container" #scrollSurveys [ngStyle]="{'height.px': tableHeight}"> 
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr>
+                            <th>Cnt</th>
+                            <th>MD</th>
+                            <th>Inc</th>
+                            <th>Azm</th>
+                            <th>Slide</th>
+                            <th>Slide TF</th>
+                            <th>MY</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            style="cursor: pointer; "
+                            *ngFor="let survey of surveys; let i = index; let last = last"
+                            (click)="onEditSurvey(i)"
+                            [ngClass]="{'active': survey.md === selectedMD}">
+                            <td>{{ i + 1 }}</td> 
+                            <td>{{ survey.md }}</td>
+                            <td>{{ survey.inc | formatDecimal }}</td>
+                            <td>{{ survey.azm | formatDecimal }}</td>
+                            <td>{{ survey.slide }}</td>
+                            <td>{{ survey.slideTF }}</td>
+                            <td>{{ survey.motorOutput | formatDecimal }}</td>
+                            {{ last ? scrollSurveysToBottom() : '' }}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>  
+</div>  

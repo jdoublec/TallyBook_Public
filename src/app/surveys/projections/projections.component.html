@@ -1,0 +1,90 @@
+<!-- <div class="col-12 col-sm-12 form-group">
+    <style>
+        label {
+            color: lightgray;
+        }
+        input, select {
+            background-color: lightgray;
+        }
+    </style>
+    <button 
+        class="btn btn-sm btn-secondary" 
+        type="button"
+        [disabled]="!okToProject"
+        (click)="onProject()">Project
+    </button>   
+    <div 
+        class="btn-group"
+        appDropdown
+        #r="appDropdown">        
+        <button 
+            type="button"
+            class="btn btn-sm btn-outline-light dropdown-toggle">
+            <span class="caret"></span>
+        </button>
+            <ul class="dropdown-menu bg-dark" style="color: lightgray" [ngClass]="{'show':r.isOpen}">                
+                <li><a (click)="onProjectMDIncAzm()"
+                    style="cursor: pointer;">MD, Inc, Azm</a></li>
+                <li><a (click)="onProjectIncAzmTVD()"
+                        style="cursor: pointer;">Inc, Azm, TVD</a></li>
+                <li><a (click)="onProjectMDDLSTF()"
+                        style="cursor: pointer;">MD, DLS, TF</a></li>
+                    <li><a (click)="onProjectDLSTFCL()"
+                        style="cursor: pointer;">DLS, TF, CL</a></li>
+                <li><a (click)="onProjectBRTRCL()"
+                        style="cursor: pointer;">BR, TR, CL</a></li>
+                <li><a (click)="onProjectIncAzmCL()"
+                    style="cursor: pointer;">Inc, Azm, CL</a></li>                        
+            </ul>                    
+    </div> 
+    <a style="color: white"> | </a>   
+    <button 
+        class="btn btn-sm btn-secondary" 
+        type="button"        
+        (click)="onProjectToBit()">Proj. Bit
+    </button>                     
+    <a style="color: white"> | </a>   
+    <button 
+        class="btn btn-sm btn-dark" 
+        type="button"
+        (click)="onDeleteProjections()">Delete
+    </button> 
+    <div class="row" style="padding-top: 1%;">       
+        <div class="col-1 col-sm-1 form-group">   
+            <label>{{ firstParamName }}</label>
+        </div>
+        <div class="col-3 col-sm-3 form-group">
+            <input
+                type="number"             
+                id="firstParam"
+                [disabled]=[]
+                [(ngModel)]="firstParam"
+                (keyup)="onParamsChanged()"
+                class="form-control">                                  
+        </div>       
+        <div class="col-1 col-sm-1 form-group">   
+            <label>{{ secondParamName }}</label>
+        </div>
+        <div class="col-3 col-sm-3 form-group">
+            <input
+                type="number"           
+                id="secondParam"
+                [disabled]="isEditMode()"
+                [(ngModel)]="secondParam"
+                (keyup)="onParamsChanged()"
+                class="form-control">                                  
+        </div>      
+        <div class="col-1 col-sm-1 form-group">   
+            <label>{{ thirdParamName }}</label>
+        </div>
+        <div class="col-3 col-sm-3 form-group">
+            <input
+                type="number"             
+                id="thirdParam"
+                [disabled]="isEditMode()"
+                [(ngModel)]="thirdParam"
+                (keyup)="onParamsChanged()"
+                class="form-control">                                  
+        </div>   
+    </div>      
+</div> -->

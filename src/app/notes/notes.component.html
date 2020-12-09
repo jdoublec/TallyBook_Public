@@ -1,0 +1,256 @@
+<!-- Mobile Resolution -->
+<div *ngIf="mobileResolution">
+    <div class="col-12 col-xl-12 form-group">
+        <style>
+            label {
+                color: lightgray;
+            }
+            input {
+                background-color: lightgray;
+            }
+        </style>
+        <div class="row">
+            <div class="col-xl-12 form-group">      
+                <div *ngIf="!readOnlyAccess" class="row">      
+                    <div class="col-6 col-sm-6 form-group">
+                        <label>Time</label>
+                        <input
+                            type="time"
+                            id="time"
+                            class="form-control"
+                            [(ngModel)]="timeValue"
+                            (keyup)="onDateTimeChanged()"
+                            (keyup.enter)="onEnterKeyPressed(true)">
+                    </div>
+                    <div class="col-6 col-sm-6 form-group">
+                        <label>Date</label> 
+                        <input
+                            type="date"
+                            id="dateValue"
+                            class="form-control"
+                            [(ngModel)]="dateValue"
+                            (keyup)="onDateTimeChanged()"
+                            (keyup.enter)="onEnterKeyPressed(true)">  
+                    </div>
+                </div>
+                <div class="row">
+                    <div *ngIf="!readOnlyAccess" class="col-6 col-sm-6 form-group">
+                        <label>Type</label>
+                        <input
+                            type="text"
+                            id="typeValue"
+                            class="form-control"
+                            [(ngModel)]="typeValue"
+                            (keyup)="onInputValueChanged()"
+                            (keyup.enter)="onEnterKeyPressed(true)">  
+                    </div>
+                    <div *ngIf="!readOnlyAccess" class="col-6 col-sm-6 form-group">             
+                        <button 
+                            style="margin-bottom: 0px;" 
+                            class="btn btn-sm btn-success" 
+                            type="button" 
+                            (click)="onAddUpdateNote()"
+                            [disabled]="!okToAddUpdate"
+                            >{{ editMode ? 'Upd' : 'Add' }}</button>
+                        <a style="color: white; margin: 5px">|</a>
+                        <button 
+                            style="margin-bottom: 0px;" 
+                            class="btn btn-sm btn-danger" 
+                            type="button"
+                            [disabled]="!editMode"
+                            (click)=onDeleteNote()>Del</button>
+                        <div class="row" style="margin-bottom: 8px; margin-top: 8px;">
+                            <button 
+                                style="margin-top: 0px; margin-left: 14px;" 
+                                class="btn btn-sm btn-primary" 
+                                type="button"
+                                (click)="onClearInput()">Clr</button>  
+                            <a style="color: white; margin: 5px">|</a>
+                            <button 
+                                class="btn btn-sm btn-info" 
+                                type="button"
+                                (click)="scrollNotesToBottom(true)">vvv</button>
+                        </div>    
+                    </div>  
+                    <div class="col-12 col-sm-12 form-group">
+                        <label>Notes</label>
+                            <textarea style="background-color: lightgray;"
+                                type="text"
+                                id="note"
+                                class="form-control"
+                                [(ngModel)]="noteValue"
+                                (keyup)="onInputValueChanged()"
+                                (keyup.enter)="onEnterKeyPressed(true)"
+                                rows="3"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-ml-12">
+                            <style>th, td {
+                                    border: 1px solid;
+                                    border-color: rgba(211, 211, 211, 0.424);
+                                    width: 10%;
+                                    text-align: center;
+                                }
+                            </style>   
+                            <!-- <table class="table table-dark"
+                                style="border: 1px solid; border-color: rgba(211, 211, 211, 0.424)"> -->
+                            <div class=" table table-container bg-dark table-responsive">
+                                <div class="inner-container" #scrollNotes [ngStyle]="{'height.px': tableHeight}">
+                                    <table class="table table-bordered table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Time</th>
+                                                <th>Type</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr
+                                                style="cursor: pointer"         
+                                                *ngFor="let note of notes; let i = index"
+                                                (click)="onEditNote(i)">
+                                                <td type="date">{{ note.date  }}</td> 
+                                                <td>{{ note.time }}</td>
+                                                <td>{{ note.type }}</td>  
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>        
+            </div> 
+        </div>
+    </div>
+</div>
+
+<!-- Desktop/Tablet Resolution -->
+<div *ngIf="!mobileResolution">
+    <div class="row"> 
+        <div class="col-12 col-xl-5">
+            <div class="col-12 col-xl-12">
+                <div *ngIf="!readOnlyAccess" class="row">
+                    <style>
+                        label {
+                            color: lightgray;
+                        }
+                        input {
+                            background-color: lightgray;
+                        }
+                    </style>
+                    <div class="col-12 col-sm-5 form-group">
+                            <label>Time</label>
+                            <input
+                                type="time"
+                                id="time"
+                                class="form-control"
+                                [(ngModel)]="timeValue"
+                                (keyup)="onDateTimeChanged()"
+                                (change)="onDateTimeChanged()">
+                        </div>
+                    <div class="col-12 col-sm-7 form-group">
+                        <label>Date</label>
+                        <input
+                            type="date"
+                            id="dateValue"
+                            class="form-control"
+                            [(ngModel)]="dateValue"
+                            (change)="onDateTimeChanged()">  
+                    </div>
+                </div>
+                <div *ngIf="!readOnlyAccess" class="row">
+                    <div class="col-12 col-sm-12 form-group">
+                        <label>Type</label>
+                        <input
+                            type="text"
+                            id="typeValue"
+                            class="form-control"
+                            [(ngModel)]="typeValue"
+                            (change)="onInputValueChanged()">  
+                    </div>
+                </div>
+                <div *ngIf="!readOnlyAccess" class="row">
+                    <div class="col-12 col-sm-12 form-group" >            
+                        <div class="col-12 ml-3" style="text-align: center">                   
+                            <button 
+                                class="btn btn-sm btn-success" 
+                                type="button" 
+                                (click)="onAddUpdateNote()"
+                                [disabled]="!okToAddUpdate"
+                                >{{ editMode ? 'Update' : 'Add' }}</button>
+                            <a style="color: white"> | </a>
+                            <button 
+                                class="btn btn-sm btn-danger" 
+                                type="button"
+                                [disabled]="!editMode"
+                                (click)=onDeleteNote()>Delete</button>
+                            <a style="color: white"> | </a>
+                            <button 
+                                class="btn btn-sm btn-primary" 
+                                type="button"
+                                (click)="onClearInput()">Clear</button>  
+                            <a style="color: white"> | </a>
+                            <button 
+                                class="btn btn-sm btn-info" 
+                                type="button"
+                                (click)="scrollNotesToBottom(true)">vvv</button>
+                        </div>            
+                    </div>    
+                </div>     
+                <div class="row">
+                    <div class="col-12 col-sm-12 form-group">
+                        <style>th, td {
+                                border: 1px solid;
+                                border-color: rgba(211, 211, 211, 0.424);
+                                width: 10%;
+                                text-align: center;
+                            }
+                        </style>   
+                        <!-- <table class="table table-dark"
+                            style="border: 1px solid; border-color: rgba(211, 211, 211, 0.424)"> -->
+                        <div class=" table table-container bg-dark table-responsive">
+                            <div class="inner-container" #scrollNotes [ngStyle]="{'height.px': tableHeight}">
+                                <table class="table table-bordered table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                            style="cursor: pointer"         
+                                            *ngFor="let note of notes; let i = index"
+                                            (click)="onEditNote(i)">
+                                            <td type="date">{{ note.date  }}</td> 
+                                            <td>{{ note.time }}</td>
+                                            <td>{{ note.type }}</td>  
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-7">
+            <div class="col-12 col-xs-12">
+                <div class="row">
+                    <div class="col-12 col-md-12 form-group">
+                        <label>Notes</label>
+                            <textarea style="background-color: lightgray;"
+                                type="text"
+                                id="note"
+                                class="form-control"
+                                [(ngModel)]="noteValue"
+                                (change)="onInputValueChanged()"
+                                rows="20"></textarea>
+                    </div>
+                </div>    
+            </div>
+        </div>  
+    </div> 
+</div>

@@ -1,0 +1,76 @@
+<div class="row">
+    </div>
+    <div class="row">
+        <div class="col-12 col-xs-12 form-group">
+            <h1>{{ bha.name }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-xs-12 form-group">
+            <div 
+                class="btn-group"
+                appDropdown
+                #r="appDropdown">
+                <button 
+                    type="button"
+                    class="btn-sm btn-primary dropdown-toggle">
+                    Manage BHA <span class="caret"></span>
+                </button>
+                    <ul class="dropdown-menu bg-dark" style="color: lightgray" [ngClass]="{'show':r.isOpen}">
+                        <li><a (click)="onEditBHA()"
+                                style="cursor: pointer;">Edit BHA</a></li>
+                        <li><a (click)="onDeleteBHA()"
+                                style="cursor: pointer;">Delete BHA</a></li>
+                        <li><a (click)="onGradeBit()"
+                            style="cursor: pointer;">Bit Grade</a></li>                        
+                    </ul>
+                
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-12 col-xs-12 form-group">
+            <table class="table table-container bg-dark table-responsive"
+                style="width: 100%; border: 1px solid; color: lightgray; border-color: lightgray;">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>S/N</th>
+                        <th>Model</th>
+                        <th>I.D.</th>
+                        <th>O.D.</th>
+                        <th>Length</th>
+                        <th>Accum.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr
+                        style="cursor: pointer"         
+                        *ngFor="let bhaItem of bha.items; let i = index"
+                        (click)="onSelectItem(i)"> -->
+                    <tr
+                        style="cursor: pointer"  
+                        *ngFor="let bhaItem of bha.items; let i = index"
+                        (click)="onSelectItem(i)">
+                        <td *ngIf="!hasSpecSheet(i)">
+                            {{ bhaItem.name }}
+                        </td>
+                        <td *ngIf="hasSpecSheet(i)">
+                            <a href="{{ bhaItem.specSheetPath }}"
+                                target="_blank">
+                                {{ bhaItem.name }}
+                            </a>
+                        </td>  
+                        <!-- <td>{{ bhaItem.name }}</td>  -->
+                        <td>{{ bhaItem.sn }}</td>
+                        <td>{{ bhaItem.model }}</td>
+                        <td>{{ bhaItem.id }}</td>
+                        <td>{{ bhaItem.od }}</td>
+                        <td>{{ bhaItem.length }}</td>
+                        <td>{{ getAccumLength(i) | formatDecimal }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>

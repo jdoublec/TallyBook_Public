@@ -1,0 +1,27 @@
+     
+                <a 
+                    style="cursor: pointer; color: whitesmoke; border-color: darkgray;"
+                    class="list-group-item clearfix bg-dark"
+                    routerLinkActive="active"   
+                    [routerLink]="[index]">
+                    <div style="border: 1px solid; border-color: darkgray;">
+                        <table style="border:2px solid; border-color: darkgray; width: 100%">
+                            <tr style= "width: 50%; border: 1px solid;">
+                                <td style="text-align: left">BHA: {{ bha.name}}</td>
+                                <td style="text-align: right">Section: {{ bha.section }}</td>
+                            </tr>
+                            <tr style= "width: 50%; border: 1px solid;">
+                                    <td style="text-align: left">Offset: {{ bha.offset}}</td>
+                                    <td style="text-align: right">MY: {{ bha.motorYield }}</td>
+                                </tr>
+                            <tr>
+                                <td style="width: 50%; border: 1px solid; text-align: left; border-color: darkgray;">Start Date: {{ bha.startDate | date: 'yyyy-MM-dd' }}</td>
+                                <td style="border: 1px solid; text-align: right; border-color: darkgray;">End Date: {{ bha.endDate | date: 'yyyy-MM-dd' }}</td>
+                            </tr>
+                            <tr>
+                                    <td style="border: 1px solid; text-align: left; border-color: darkgray;">Start Depth: {{ bha.startDepth}}</td>
+                                    <td style="border: 1px solid; text-align: right; border-color: darkgray;">End Depth: {{ bha.endDepth }}</td>
+                                </tr>
+                        </table>
+                    </div>
+                </a> 

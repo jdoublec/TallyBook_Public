@@ -1,0 +1,161 @@
+<div class="col-xs-12">
+    <div class="row">
+        <div class="ml-3">
+            <button 
+                type="submit" 
+                class="btn btn-sm btn-success"  
+                (click)="onSave()"
+                >Save</button>
+            <a style="color: white"> | </a>
+            <button 
+                type="button" 
+                class="btn btn-sm btn-danger"
+                (click)="onCancel()"
+                >Cancel</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Inner Rows</label>
+                <select
+                    type="text"                
+                    id="innerRows"
+                    class="form-control"
+                    autocomplete="on"        
+                    [(ngModel)]="bitGrade.innerRows"
+                    (change)="onInputValueChanged()">
+                    <option 
+                    *ngFor="let row of rows; let i = index"
+                    >{{ row }}</option>
+                </select>
+            </div>
+        </div>
+    <!-- </div>
+    <div class="row"> -->
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Outer Rows</label>
+                <select
+                    type="text"                
+                    id="outerRows"
+                    class="form-control"
+                    autocomplete="on"        
+                    [(ngModel)]="bitGrade.outerRows"
+                    (change)="onInputValueChanged()">
+                    <option 
+                    *ngFor="let row of rows; let i = index"
+                    >{{ row }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Major Dull Characteristics</label>
+                <select
+                    type="text"                
+                    id="majorDull"
+                    class="form-control"
+                    autocomplete="on"        
+                    [(ngModel)]="bitGrade.majorDullChars"
+                    (change)="onInputValueChanged()">
+                    <option 
+                    *ngFor="let char of chars; let i = index"
+                    >{{ char }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Location</label>
+                <select
+                    type="text"                
+                    id="location"
+                    class="form-control"
+                    autocomplete="on"        
+                    [(ngModel)]="bitGrade.location"
+                    (change)="onInputValueChanged()">
+                    <option 
+                    *ngFor="let location of locations; let i = index"
+                    >{{ location }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Bearing Seal</label>
+                <select
+                    type="text"                
+                    id="bearingSeal"
+                    class="form-control"
+                    autocomplete="on"        
+                    [(ngModel)]="bitGrade.bearingSeal"
+                    (change)="onInputValueChanged()">
+                    <option 
+                    *ngFor="let seal of seals; let i = index"
+                    >{{ seal }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Gauge</label>
+                <select
+                    type="text"                
+                    id="gauge"
+                    class="form-control"
+                    autocomplete="on"        
+                    [(ngModel)]="bitGrade.gauge"
+                    (change)="onInputValueChanged()">
+                    <option 
+                    *ngFor="let gauge of gauges; let i = index"
+                    >{{ gauge }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Other Dull Characteristics</label>
+                <select
+                    type="text"                
+                    id="otherDull"
+                    class="form-control"
+                    autocomplete="on"        
+                    [(ngModel)]="bitGrade.otherDullChars"
+                    (change)="onInputValueChanged()">
+                    <option 
+                    *ngFor="let char of chars; let i = index"
+                    >{{ char }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Reason Pulled</label>
+                <select
+                    type="text"                
+                    id="reasonPulled"
+                    class="form-control"
+                    autocomplete="on"        
+                    [(ngModel)]="bitGrade.reasonPulled"
+                    (change)="onInputValueChanged()">
+                    <option 
+                    *ngFor="let reason of reasons; let i = index"
+                    >{{ reason }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

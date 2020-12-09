@@ -1,0 +1,190 @@
+<div class="row">
+    <style>
+        label {
+            color: lightgray;
+        }
+        input, select {
+            background-color: lightgray;
+        }
+    </style>
+    <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
+        <div class="col-12 col-xl-12 form-group">             
+            <div class="row">
+                <div class="col-12 col-sm-3 form-group"> 
+                    <label>Sphere Diameter</label>                    
+                    <input 
+                        type="number" 
+                        id="sphereDiameter"
+                        formControlName="sphereDiameter"
+                        class="form-control">  
+                </div>
+                <div class="col-12 col-sm-3 form-group">
+                    <label>Sphere Color</label>  
+                    <input 
+                        style="padding-left: 0; background-color: #343a40; border-color: #343a40;"
+                        type="color" 
+                        id="sphereColor"
+                        formControlName="sphereColor"
+                        class="form-control">  
+                </div> <div class="col-12 col-sm-3 form-group">
+                    <label>Well Color</label>  
+                    <input 
+                        style="padding-left: 0; background-color: #343a40; border-color: #343a40;"
+                        type="color" 
+                        id="wellColor"
+                        formControlName="wellColor"
+                        class="form-control">       
+                </div>         
+                <div class="col-12 col-sm-3 form-group">
+                    <label>Plan Color</label>  
+                    <input 
+                        style="padding-left: 0; background-color: #343a40; border-color: #343a40;"
+                        type="color" 
+                        id="planColor"
+                        formControlName="planColor"
+                        class="form-control">       
+                </div>    
+            </div> 
+            <div class="row">    
+                <div class="col-12 col-sm-6 form-group">
+                    <label>Well Ratio</label> 
+                    <input 
+                        type="number" 
+                        id="wellRatio"
+                        formControlName="wellRatio"
+                        class="form-control">       
+                </div>
+                <div class="col-12 col-sm-6 form-group">
+                    <label>Groundbox</label>  
+                    <select
+                        type="text"
+                        autocomplete="on"
+                        id="groundboxName"
+                        formControlName="groundboxName"
+                        class="form-control">
+                        <option>blueSpace</option>
+                        <option>ground</option>
+                        <option>sand</option>
+                        <option>fineSand</option>
+                    </select>    
+                </div>
+            </div>   
+            <div class="row">
+                <div class="col-12 col-sm-12 form-group">
+                    <label>Sphere Material</label> 
+                    <input 
+                        type="text" 
+                        id="sphereMat"
+                        formControlName="sphereMat"
+                        class="form-control">  
+                </div>
+            </div>  
+            <div class="row">                            
+                <div class="col-12 col-sm-12 form-group">
+                    <label>Well Material</label>  
+                    <input 
+                        type="text" 
+                        id="wellMat"
+                        formControlName="wellMat"
+                        class="form-control">                        
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-12 form-group">
+                    <label>Casing Material</label> 
+                    <input 
+                        type="text" 
+                        id="casingMat"
+                        formControlName="casingMat"
+                        class="form-control">  
+                </div>
+            </div>
+            <form [formGroup]="cameraForm"  (ngSubmit)="onSubmit()">            
+                <div class="row">
+                    <div class="col-12 col-sm-6 form-group">
+                        <label>Camera Type</label>  
+                        <select
+                            type="text"
+                            autocomplete="on"
+                            id="cameraType"
+                            formControlName="cameraType"
+                            class="form-control"> 
+                                <option>Fly</option> 
+                                <option>ArcRotate</option>   
+                                <option>Universal</option>
+                                <option>DeviceOrientationCamera</option>                        
+                        </select> 
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                        <label>Camera Speed</label> 
+                        <input 
+                            type="number" 
+                            id="cameraSpeed"
+                            formControlName="cameraSpeed"
+                            class="form-control">   
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-6 form-group">
+                        <label>Camera Location</label>  
+                        <select
+                            type="text"
+                            autocomplete="on"
+                            id="cameraLocation"
+                            formControlName="cameraLocation"
+                            class="form-control"> 
+                                <option *ngFor="let md of mdValues">
+                                    {{ md }}
+                                </option>                            
+                        </select> 
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                        <button 
+                            type="submit"                                
+                            class="btn btn-sm btn-primary">
+                            Save Settings
+                        </button> 
+                        <a style="color: white; margin: 5px">|</a>
+                        <button 
+                            type="button"
+                            class="btn btn-sm btn-danger" 
+                            (click)="onCancel()">
+                            Cancel
+                        </button>   
+                    </div>
+                </div>
+            </form>            
+        </div> 
+    </form>
+    <div class="col-12 col-xl-6 form-group">             
+        <table class="table table-dark"
+                style="table-layout: fixed; border: 1px solid; border-color: rgba(211, 211, 211, 0.424)"
+            >                        
+            <thead>
+                <tr>
+                    <th colspan="3">Tally Books</th>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Surveys</th>
+                    <th>Plan</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let tallyBook of plotList; let i = index">
+                <tr style="cursor: pointer">
+                    <td>{{ tallyBook.name }}</td>
+                    <td style="align-content: center;">
+                        <input type="checkbox" 
+                            [(ngModel)]="plotList[i].plotSurvey"
+                            [value]="true"
+                            (change)="onPlotSurveyChanged(i)"/></td>
+                    <td style="align-content: center;">
+                        <input type="checkbox"  
+                            [(ngModel)]="plotList[i].plotPlan"
+                            [value]="true"
+                            (change)="onPlotPlanChanged(i)"/></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>  

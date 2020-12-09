@@ -1,0 +1,164 @@
+<div [ngStyle]="{'height.px': plotHeight}">    
+    <style>
+        label {
+            color: lightgray;
+        }
+        input, select {
+            background-color: lightgray;
+        }
+    </style>
+    <div *ngIf="!showPlotsSettings && !showTargetWindows && !showPlotsSurveys" class="col-12 col-xl-12 form-group">        
+        <div class="row">            
+            <div class="col-6 col-xs-12 form-group">
+                <div class="row">
+                    <div class="col-12 col-xs-12 form-group"> 
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-primary" 
+                            [disabled]="showPlotsSettings || showTargetWindows || showPlotsSurveys"
+                            (click)="onShowPlotsSettings()">
+                            Plots Settings <span class="caret"></span>
+                        </button>   
+                        <a style="color: white; margin: 5px">|</a>
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-primary" 
+                            [disabled]="showPlotsSettings || showTargetWindows || showPlotsSurveys"
+                            (click)="onShowSurveys()">
+                            Surveys <span class="caret"></span>
+                        </button>        
+                        <a style="color: white; margin: 5px">|</a>
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-primary" 
+                            [disabled]="showPlotsSettings || showTargetWindows || showPlotsSurveys"
+                            (click)="onShowTargetWindows()">
+                            Target Windows <span class="caret"></span>
+                        </button>        
+                    </div>
+                </div>            
+                <div class="row">
+                    <div class="col-12 col-xs-12 form-group"> 
+                        <button 
+                            type="button"                    
+                            [className]="rideThePlan ? 'btn btn-sm btn-success' : 'btn btn-sm btn-primary'"
+                            [disabled]="showPlotsSettings"
+                            (click)="followWellPath(false)">
+                            Ride the Plan!!!
+                        </button>    
+                        <a style="color: white; margin: 5px">|</a>
+                        <button 
+                            type="button"
+                            [className]="rideTheWell ? 'btn btn-sm btn-success' : 'btn btn-sm btn-primary'"
+                            [disabled]="showPlotsSettings"
+                            (click)="followWellPath(true)">
+                            Ride the Well!!!
+                        </button> 
+                    </div>
+                </div>  
+            </div>
+            <div class="col-6 col-xs-6 form-group"> 
+                <div class="row">
+                    <!-- <div class="col-12 col-xs-12 form-group"> -->
+                        <div class="col-1 col-sm-1 form-group">   
+                            <label>View MD</label>
+                        </div>
+                        <div class="col-3 col-sm-3 form-group">
+                            <select
+                                type="number"
+                                autocomplete="on"
+                                id="viewMD"
+                                [(ngModel)]="viewMD"
+                                (change)="onUpdateViewMD()"
+                                class="form-control"> 
+                                    <option *ngFor="let survey of surveys"                                        
+                                            [ngStyle]="{'background-color': !survey.projection ? 'lightgray' : '#0275d8'}">
+                                                {{ survey.md | formatDecimal }}
+                                    </option>                            
+                            </select> 
+                        </div>       
+                        <div class="col-1 col-sm-1 form-group">   
+                            <label>View Dist.</label>
+                        </div>
+                        <div class="col-3 col-sm-3 form-group">
+                            <input
+                                type="number"
+                                required                    
+                                id="viewDist"
+                                [(ngModel)]="viewDistance"
+                                (change)="onUpdateViewDistance()"
+                                class="form-control">                                  
+                        </div> 
+                    <!-- </div> -->
+                </div>
+                <div class="row">    
+                    <div class="col-12 col-xs-12 form-group">             
+                        <button 
+                            type="button"
+                            [className]="horView ? 'btn btn-sm btn-success' : 'btn btn-sm btn-primary'"
+                            [disabled]="showPlotsSettings"
+                            (click)="onUpdateView('hor')">
+                            Hor View
+                        </button>   
+                        <a style="color: white; margin: 5px">|</a>
+                        <button 
+                            type="button"
+                            [className]="perpView ? 'btn btn-sm btn-success' : 'btn btn-sm btn-primary'"
+                            [disabled]="showPlotsSettings"
+                            (click)="onUpdateView('perp')">
+                            Perp View
+                        </button>   
+                        <a style="color: white; margin: 5px">|</a>
+                        <button 
+                            type="button"
+                            [className]="vertView ? 'btn btn-sm btn-success' : 'btn btn-sm btn-primary'"
+                            [disabled]="showPlotsSettings"
+                            (click)="onUpdateView('vert')">
+                            Vert View
+                        </button>                              
+                        <a style="color: white; margin: 5px">|</a>
+                        <label>View R/L</label>
+                        <input
+                            type="checkbox"
+                            style="margin: 5px"
+                            id="viewRL"
+                            [(ngModel)]="viewRL"
+                            (change)="onUpdateViewRightLeft()">    
+                            
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+    <style>th, td {
+        border: 1px solid;
+        border-color: rgba(211, 211, 211, 0.424);
+        width: 10%;
+        text-align: center;
+    }
+    </style> 
+    <div *ngIf="showPlotsSettings">  
+        <div class="col-12 col-xl-12 form-group">   
+            <app-plots-settings></app-plots-settings>
+        </div>  
+    </div>
+    <div *ngIf="showPlotsSurveys"> 
+        <div class="col-12 col-xl-12 form-group">   
+            <app-plots-surveys></app-plots-surveys>
+        </div>    
+    </div>
+    <div *ngIf="showTargetWindows">  
+        <div class="col-12 col-xl-12 form-group">   
+            <app-target-windows></app-target-windows>
+        </div>  
+    </div>       
+    <style>
+        #renderCanvas {
+            width: 100%;
+            height: 100%;
+            /* display: block; */
+            font-size: 0;
+        }    
+    </style>        
+    <canvas #renderCanvas id="renderCanvas"></canvas>
+</div>

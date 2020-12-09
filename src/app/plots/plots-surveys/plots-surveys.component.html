@@ -1,0 +1,260 @@
+<!-- <div class="col-12 col-xl-12 form-group">   -->
+    <style>
+            label {
+                color:lightgray;
+            }
+            input {
+                background-color: lightgray;
+            }
+    </style>
+    <div class="row">                
+        <div class="col-12 col-xl-12 form-group">
+            <div class="row">
+                <div class="col-12 col-sm-1 form-group">
+                    <label>{{ firstParamName }}</label>
+                    <input
+                        position=sticky
+                        type="number"
+                        id="firstParam"
+                        min="0"
+                        class="form-control"
+                        #firstParamElem
+                        [(ngModel)]="firstParam"
+                        (keyup)="onSurveyInputValueChanged()"
+                        (keyup.enter)="onPSEnterKeyPressed()">
+                </div>
+                <div class="col-12 col-sm-1 form-group">
+                    <label>{{ secondParamName }}</label>
+                    <input
+                        position=sticky
+                        type="number"
+                        min="0"
+                        id="secondParam"
+                        class="form-control"
+                        [(ngModel)]="secondParam"
+                        (keyup)="onSurveyInputValueChanged()"
+                        (keyup.enter)="onPSEnterKeyPressed()">
+                </div>
+                <div class="col-12 col-sm-1 form-group">
+                    <label>{{ thirdParamName }}</label>
+                    <input
+                        position=sticky
+                        type="number"
+                        id="thirdParam"
+                        min="0"
+                        class="form-control"
+                        [(ngModel)]="thirdParam"
+                        (keyup)="onSurveyInputValueChanged()"
+                        (leave)="onThirdParamChanged()"
+                        (keyup.enter)="onPSEnterKeyPressed()">
+                </div>                
+            <!-- </div> -->
+            <!-- <div class="row"> -->
+                <div class="col-12 col-sm-9 form-group">
+                    <button 
+                        class="btn btn-sm btn-success" 
+                        type="button" 
+                        (click)="onAddUpdatePlotsSurveys()"
+                        [disabled]="!okToAddUpdate"
+                        >{{ !surveyMode ? 'Project' : editMode ? 'Update' : 'Add' }}
+                    </button>
+                    <div 
+                        class="btn-group"
+                        appDropdown
+                        #r="appDropdown">        
+                        <button 
+                            type="button"
+                            class="btn btn-sm btn-outline-light dropdown-toggle">
+                            <span class="caret"></span>
+                        </button>
+                            <ul class="dropdown-menu bg-dark" style="color: lightgray" [ngClass]="{'show':r.isOpen}"> 
+                                <li><a (click)="onSurveyMode()"
+                                    style="cursor: pointer;">Survey Mode</a></li>               
+                                <li><a (click)="onProjectMDIncAzm()"
+                                    style="cursor: pointer;">MD, Inc, Azm</a></li>
+                                <li><a (click)="onProjectIncAzmTVD()"
+                                        style="cursor: pointer;">Inc, Azm, TVD</a></li>
+                                <li><a (click)="onProjectMDDLSTF()"
+                                        style="cursor: pointer;">MD, DLS, TF</a></li>
+                                    <li><a (click)="onProjectCLDLSTF()"
+                                        style="cursor: pointer;">CL, DLS, TF</a></li>
+                                <li><a (click)="onProjectCLBRTR()"
+                                        style="cursor: pointer;">CL, BR, TR</a></li>
+                                <li><a (click)="onProjectCLIncAzm()"
+                                    style="cursor: pointer;">CL, Inc, Azm</a></li>                        
+                            </ul>                    
+                    </div> 
+                    <a style="color: white"> | </a>
+                    <button 
+                        class="btn btn-sm btn-danger" 
+                        type="button"
+                        [disabled]="!editMode"
+                        (click)=onDeletePlotsSurvey()>Delete
+                    </button>
+                    <a style="color: white"> | </a>
+                    <button 
+                        class="btn btn-sm btn-primary" 
+                        type="button"
+                        (click)="onClearInput()">Clear
+                    </button>
+                    <a style="color: white"> | </a>
+                        <button 
+                            class="btn btn-sm btn-primary" 
+                            type="button"
+                            (click)="onDeleteProjections()">Del Proj</button>
+                    <a style="color: white"> | </a>
+                    <button 
+                        class="btn btn-sm btn-info" 
+                        type="button"
+                        (click)="scrollSurveysToBottom(true)">vvv
+                    </button>                          
+                    <a style="color: white"> | </a>      
+                    <button 
+                        class="btn btn-sm btn-secondary" 
+                        type="button"
+                        (click)="closePlotsSurveys()">Close
+                    </button>   
+                    <a style="color: white; margin: 5px"> | </a>
+                        <label>Projection Sphere</label>
+                        <input
+                            type="checkbox"
+                            style="margin: 5px"
+                            id="projSphere"
+                            [(ngModel)]="projSphere"
+                            (change)="onShowProjSphere()">  
+                    <div style="padding-top: 1%;">
+                        <button 
+                            type="button"
+                            style="height: 30%; padding: 0%;" 
+                            [className]="horView ? 'btn btn-sm btn-success' : 'btn btn-sm btn-primary'"
+                            (click)="onUpdateView('hor')">
+                            Hor View
+                        </button>   
+                        <a style="color: white"> | </a>
+                        <button 
+                            type="button"
+                            style="height: 30%; padding: 0%" 
+                            [className]="perpView ? 'btn btn-sm btn-success' : 'btn btn-sm btn-primary'"
+                            (click)="onUpdateView('perp')">
+                            Perp View
+                        </button>   
+                        <a style="color: white"> | </a>
+                        <button 
+                            type="button"
+                            style="height: 30%; padding: 0%" 
+                            [className]="vertView ? 'btn btn-sm btn-success' : 'btn btn-sm btn-primary'"
+                            (click)="onUpdateView('vert')">
+                            Vert View
+                        </button>  
+                        <a style="color: white; margin: 5px"> | </a>
+                        <label>View R/L</label>
+                        <input
+                            type="checkbox"
+                            style="margin: 5px"
+                            id="viewRL"
+                            [(ngModel)]="viewRL"
+                            (change)="onUpdateViewRightLeft()">    
+                    <!-- </div> -->
+                    <!-- <div class="col-1 col-sm-1 form-group">    -->
+                        <a style="color: white; margin: 5px"> | </a>
+                        <label>View MD</label>
+                    <!-- </div> -->
+                    <!-- <div class="col-3 col-sm-3 form-group"> -->
+                        <select
+                            type="number"
+                            style="margin: 5px; height: 30px; width: 150px"
+                            autocomplete="on"
+                            id="viewMD"
+                            [(ngModel)]="viewMD"
+                            (change)="onUpdateViewMD()"> 
+                                <option *ngFor="let survey of surveys"                                         
+                                        [ngStyle]="{'background-color': !survey.projection ? 'lightgray' : '#0275d8'}">
+                                            {{ survey.md | formatDecimal }}
+                                </option>                            
+                        </select> 
+                        <a style="color: white; margin: 5px"> | </a>
+                    <!-- </div>        -->
+                    <!-- <div class="col-1 col-sm-1 form-group">    -->
+                        <label>View Dist.</label>
+                    <!-- </div> -->
+                    <!-- <div class="col-3 col-sm-3 form-group"> -->
+                        <input
+                            type="number"
+                            style="margin: 5px; height: 30px; width: 150px"
+                            required                    
+                            id="viewDist"
+                            [(ngModel)]="viewDistance"
+                            (change)="onUpdateViewDistance()">                                  
+                    <!-- </div>  -->
+                    </div>
+                </div> 
+            </div>                    
+        </div>
+        <!-- <div class="col-xl-6 form-group">
+            <app-projections></app-projections>
+        </div> -->
+    </div>
+<!-- </div> -->
+
+<!-- <div class="col-xl-12 form-group"> -->
+    <!-- <div class="row">     -->
+        <!-- <div class="col-sm-12 form-group"> -->
+            <div class=" table table-container bg-dark table-responsive"                 
+                (paste)="onPlotSurveysPaste($event)">
+                <div class="inner-container" #scrollSurveys style="height: 250px">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th>Cnt</th>
+                                <th>MD</th>
+                                <th>Inc</th>
+                                <th>Azm</th>
+                                <th>TVD</th>
+                                <th>North</th>
+                                <th>East</th>
+                                <th>VS</th>
+                                <th>TF</th>
+                                <th>DLS</th>         
+                                <th>Dist To<br>Plan</th>
+                                <th>ABPlan<br>+/-</th>
+                                <th>RLPlan<br>+/-</th>
+                                <th>TVD To<br>Plan</th>
+                                <th>TF To<br>Plan</th>
+                                <th>MY</th>
+                                <th>Slide<br>Seen</th>
+                                <th>Slide<br>TF</th>                  
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                style="cursor: pointer; "
+                                *ngFor="let survey of surveys; let i = index; let last = last"
+                                (click)="onSelectSurvey(i)"
+                                [ngClass]="{'active': survey.md === selectedMD, 'bg-primary': survey.projection}">
+                                <td>{{ i }}</td> 
+                                <td>{{ survey.md | formatDecimal }}</td>
+                                <td>{{ survey.inc | formatDecimal }}</td>
+                                <td>{{ survey.azm | formatDecimal }}</td>
+                                <td>{{ survey.tvd | formatDecimal }}</td>
+                                <td>{{ survey.north | formatDecimal }}</td>
+                                <td>{{ survey.east | formatDecimal }}</td>
+                                <td>{{ survey.vs | formatDecimal }}</td>   
+                                <td>{{ survey.survTF | formatDecimal }}</td>                           
+                                <td>{{ survey.dls | formatDecimal }}</td>     
+                                <td>{{ survey.distPlan | formatDecimal }}</td>
+                                <td>{{ survey.abPlan | formatDecimal }}</td>
+                                <td>{{ survey.rlPlan | formatDecimal }}</td>
+                                <td>{{ survey.tvdToPlan | formatDecimal }}</td>
+                                <td>{{ survey.tfToPlan | formatDecimal }}</td>
+                                <td>{{ survey.motorOutput | formatDecimal }}</td>
+                                <td style="white-space:pre-wrap; word-wrap:break-word">{{ survey.slide }}</td>                                               
+                                <td style="white-space:pre-wrap; word-wrap:break-word">{{ survey.slideTF }}</td>                                  
+                                {{ last && !editMode ? scrollSurveysToBottom() : '' }}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <!-- </div> -->
+    <!-- </div> -->
+<!-- </div> -->

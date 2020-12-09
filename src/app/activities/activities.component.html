@@ -1,0 +1,500 @@
+<!-- Mobile Resolution -->
+<div *ngIf="mobileResolution">
+    <div class="col-12 col-xl-12 form-group">
+        <div class="row">
+            <style>
+                label {
+                    color: lightgray;
+                }
+                input, select {
+                    background-color: lightgray; 
+                }
+            </style>
+            <div *ngIf="!readOnlyAccess" class="col-4 col-sm-4 form-group">
+                <label>End Time</label>
+                <input
+                    type="time"
+                    id="time"
+                    class="form-control"
+                    placeholder="End Time"
+                    #endTime
+                    [(ngModel)]="endTimeValue"
+                    (keyup)="onEndTimeChanged()"
+                    (change)="onEndTimeChanged()"
+                    (keyup.enter)="onEnterKeyPressed()"
+                    [disabled]="!dateValid">
+            </div>
+            <div class="col-8 col-sm-8 form-group">
+                <label>Activity</label>
+                <div *ngIf="!readOnlyAccess">
+                    <a style="color: white"> | </a>
+                    <button 
+                        class="btn btn-sm btn-primary"
+                        style="height: 30%; padding: 0%"                
+                        type="button"    
+                        tabindex="-1"           
+                        (click)="onAddToActivityList()"
+                        (keyup.enter)="onEnterKeyPressed()"
+                        [disabled]="!dateValid"
+                        >Add Act.</button>
+                    <a style="color: white"> | </a>
+                    <button 
+                        class="btn btn-sm btn-danger"
+                        style="height: 30%; padding: 0%"                
+                        type="button"               
+                        tabindex="-1"
+                        (click)="onRemoveFromActivityList()"
+                        (keyup.enter)="onEnterKeyPressed()"
+                        [disabled]="!dateValid"
+                        >Rem Act.</button>
+                </div>
+                <input
+                    type="text"
+                    id="activity"
+                    class="form-control"
+                    list="activities"
+                    autocomplete="off"
+                    [(ngModel)]="activityValue"
+                    (keyup)="onActivityChanged()"
+                    (change)="onActivityChanged()"
+                    (keyup.enter)="onEnterKeyPressed()"
+                    [disabled]="!dateValid && !filterByActDateBHA">               
+                    <datalist
+                        id="activities">
+                            <option 
+                            *ngFor="let activitiesItem of activitiesList; let i = index"
+                            >{{ activitiesItem.activity }}</option>
+                    </datalist>
+            </div>
+            <div class="col-4 col-sm-4 form-group">
+                <label>End Depth</label>
+                <input
+                    type="number"                
+                    id="endDepth"
+                    class="form-control"
+                    list="tallyTotals"    
+                    autocomplete="off" 
+                    [(ngModel)]="endDepthValue"
+                    (keyup)="onEndDepthChanged()"
+                    (keyup.enter)="onEnterKeyPressed()"
+                    [disabled]="!dateValid">
+                    <datalist 
+                        id="tallyTotals">
+                            <option 
+                            *ngFor="let tallyTotal of tallyTotals; let i = index"
+                            >{{ tallyTotal }}</option>
+                    </datalist>
+            </div>
+            <div class="col-8 col-sm-8 form-group">
+                <label>Comments</label>
+                <input
+                    type="text"
+                    id="comments"
+                    class="form-control"
+                    #comments
+                    [(ngModel)]="commentsValue"
+                    (keyup)="onInputValueChanged()"
+                    (keyup.enter)="onEnterKeyPressed()"
+                    (focus)="onCommentsGotFocus()"
+                    [disabled]="!dateValid">
+            </div>
+            <div class="col-8 col-sm-8 form-group"> 
+                <label>Date</label> 
+                <input
+                    type="date"
+                    id="dateValue"
+                    class="form-control"
+                    [ngModel]="dateValue"
+                    (ngModelChange)="dateValue=$event"
+                    [value]="dateValue"
+                    (change)="onDateChanged()">    
+            </div>    
+            <div class="col-4 col-sm-4 form-group">  
+                <label>BHA</label>                        
+                <select
+                    type="text"                
+                    id="bha"
+                    class="form-control"
+                    autocomplete="on"        
+                    [(ngModel)]="bhaValue"
+                    (change)="onBHAChanged()"
+                    (keyup.enter)="onEnterKeyPressed()"
+                    [disabled]="!dateValid && !filterByActDateBHA">                
+                        <option 
+                        *ngFor="let bha of bhas; let i = index"
+                        >{{ bha }}</option>
+                    </select>
+            </div>
+            <div *ngIf="!readOnlyAccess" class="col-6 col-sm-6 form-group">
+                <button 
+                    style="margin-bottom: 0px;" 
+                    class="btn btn-sm btn-success" 
+                    type="button" 
+                    (click)="onAddUpdateActivity()"
+                    [disabled]="!okToUpdateAdd"
+                    >{{ editMode ? 'Upd.' : 'Add' }}</button>
+                <a style="color: white; margin: 5px">|</a>
+                <button 
+                    style="margin-bottom: 0px;" 
+                    class="btn btn-sm btn-danger" 
+                    type="button"
+                    [disabled]="!editMode"
+                    (click)=onDeleteActivity()>Del</button>
+                <div class="row" style="margin-bottom: 8px; margin-top: 8px;">
+                    <button 
+                        style="margin-top: 0px; margin-left: 14px;"
+                        class="btn btn-sm btn-primary" 
+                        type="button"
+                        (click)="onClearInput()">Clear</button> 
+                    <a style="color: white; margin: 5px">|</a>
+                    <button 
+                        style="margin-top: 0px;"  
+                        class="btn btn-sm btn-info" 
+                        type="button"
+                        (click)="scrollToBottom(true)">vvv</button>
+                </div>
+            </div>  
+            <div class="col-6 col-sm-6 form-group">
+                <label style="padding-left: 10px; padding-right: 15px;">Show All</label>
+                <input
+                    type="checkbox"
+                    id="showAllActivities"
+                    [(ngModel)]="showAllActivities"
+                    (change)="onShowAllChecked()">
+                <label style="padding-left: 10px; padding-right: 15px;">Filter</label>
+                <input
+                    type="checkbox"
+                    id="filterByActDateBHA"
+                    [(ngModel)]="filterByActDateBHA"
+                    (change)="onFilterByChecked()">
+            </div> 
+        </div>
+    </div>
+</div>
+<!-- Destop/Tablet Resolution -->
+<div *ngIf="!mobileResolution">
+    <div class="col-12 col-xs-12 form-group">
+        <div class="row">
+            <style>
+                label {
+                    color: lightgray;
+                }
+                input, select {
+                    background-color: lightgray;
+                }
+            </style>
+            <div *ngIf="!readOnlyAccess" class="col-2 col-sm-2 form-group">
+                <label>End Time</label>
+                <input
+                    type="time"
+                    id="time"
+                    class="form-control"
+                    placeholder="End Time"
+                    #endTime
+                    [(ngModel)]="endTimeValue"
+                    (keyup)="onEndTimeChanged()"
+                    (change)="onEndTimeChanged()"
+                    (keyup.enter)="onEnterKeyPressed()"
+                    [disabled]="!dateValid">
+            </div>
+            <div *ngIf="!readOnlyAccess" class="col-3 col-sm-3 form-group">
+                <label>Activity</label>
+                    <a style="color: white"> | </a>
+                    <button 
+                        class="btn btn-sm btn-primary"
+                        style="height: 30%; padding: 0%"                
+                        type="button"    
+                        tabindex="-1"           
+                        (click)="onAddToActivityList()"
+                        (keyup.enter)="onEnterKeyPressed()"
+                        [disabled]="!dateValid"
+                        >Add Act.</button>
+                    <a style="color: white"> | </a>
+                    <button 
+                        class="btn btn-sm btn-danger"
+                        style="height: 30%; padding: 0%"                
+                        type="button"               
+                        tabindex="-1"
+                        (click)="onRemoveFromActivityList()"
+                        (keyup.enter)="onEnterKeyPressed()"
+                        [disabled]="!dateValid"
+                        >Rem Act.</button>
+                <input
+                    type="text"
+                    id="activity"
+                    class="form-control"
+                    list="activities"
+                    autocomplete="off"
+                    [(ngModel)]="activityValue"
+                    (keyup)="onActivityChanged()"
+                    (change)="checkForPrevActivityDepth()"
+                    (keyup.enter)="onEnterKeyPressed()"
+                    [disabled]="!dateValid && !filterByActDateBHA">               
+                    <datalist
+                        id="activities">
+                            <option 
+                            *ngFor="let activitiesItem of activitiesList; let i = index"
+                            >{{ activitiesItem.activity }}</option>
+                    </datalist>
+            </div>
+            <div *ngIf="readOnlyAccess" class="col-3 col-sm-3 form-group">
+                <label>Activity</label>
+                <input
+                    type="text"
+                    id="activity"
+                    class="form-control"
+                    list="activities"
+                    autocomplete="off"
+                    [(ngModel)]="activityValue"
+                    (keyup)="onActivityChanged()"
+                    (change)="checkForPrevActivityDepth()"
+                    (keyup.enter)="onEnterKeyPressed()"
+                    [disabled]="!dateValid && !filterByActDateBHA">               
+                    <datalist
+                        id="activities">
+                            <option 
+                            *ngFor="let activitiesItem of activitiesList; let i = index"
+                            >{{ activitiesItem.activity }}</option>
+                    </datalist>
+            </div>
+            <div class="col-2 col-sm-2 form-group">
+                <label>End Depth</label>
+                <input
+                    type="number"                
+                    id="endDepth"
+                    class="form-control"
+                    list="tallyTotals"    
+                    autocomplete="off" 
+                    [(ngModel)]="endDepthValue"
+                    (keyup)="onEndDepthChanged()"
+                    (keyup.enter)="onEnterKeyPressed()"
+                    (focusout)="onCheckForSurveyDepth()"
+                    [disabled]="!dateValid">
+                    <datalist 
+                        id="tallyTotals">
+                            <option 
+                            *ngFor="let tallyTotal of tallyTotals; let i = index"
+                            >{{ tallyTotal }}</option>
+                    </datalist>
+            </div>
+            <div class="col-5 col-sm-5 form-group">
+                <label>Comments</label>
+                <input
+                    type="text"
+                    id="comments"
+                    class="form-control"
+                    #comments
+                    [(ngModel)]="commentsValue"
+                    (keyup)="onInputValueChanged()"
+                    (keyup.enter)="onEnterKeyPressed()"
+                    (focus)="onCommentsGotFocus()"
+                    [disabled]="!dateValid">
+            </div>
+        </div>
+        <div class="row">
+            <div *ngIf="!readOnlyAccess" class="col-3.5 col-xs-3.5 form-group">            
+                <!-- <div class="ml-3">                    -->
+                <div class="col-12 col-xs-12 form-group">
+                    <button 
+                        class="btn btn-sm btn-success" 
+                        type="button" 
+                        (click)="onAddUpdateActivity()"
+                        [disabled]="!okToUpdateAdd"
+                        >{{ editMode ? 'Update' : 'Add' }}</button>
+                    <a style="color: white"> | </a> 
+                    <button 
+                        class="btn btn-sm btn-danger" 
+                        type="button"
+                        [disabled]="!editMode"
+                        (click)=onDeleteActivity()>Delete</button>
+                    <a style="color: white"> | </a>
+                    <button 
+                        class="btn btn-sm btn-primary" 
+                        type="button"
+                        (click)="onClearInput()">Clear</button> 
+                    <a style="color: white"> | </a>
+                        <button 
+                            class="btn btn-sm btn-info" 
+                            type="button"
+                            (click)="scrollToBottom(true)">vvv</button>
+                </div>            
+            </div>             
+            <label style="padding-left: 0px; padding-right: 10px; padding-top: 5px;">Date</label>             
+            <div class="col-.5 col-sm-.5 form-group">  
+                <button 
+                    type="button" 
+                    class="btn btn-sm btn-primary"
+                    style="height: 80%;"
+                    tabindex="-1"           
+                    (click)="incrementDay(-1)"
+                    [disabled]="!dateValid" 
+                >&lt;</button>     
+            </div>
+            <div class="col-2.5 col-sm-2.5 form-group">  
+                <input
+                    type="date"
+                    id="dateValue"                    
+                    class="form-control"
+                    [ngModel]="dateValue"
+                    (ngModelChange)="dateValue=$event"
+                    [value]="dateValue"
+                    (change)="onDateChanged()">    
+            </div>
+            <div class="col-.5 col-sm-.5 form-group">  
+                <button 
+                    type="button" 
+                    class="btn btn-sm btn-primary"
+                    style="height: 80%;"
+                    tabindex="-1"           
+                    (click)="incrementDay(1)"
+                    [disabled]="!dateValid" 
+                >&gt;</button>     
+            </div>
+            <div class="col-2.5 col-sm-2.5 form-group">
+                <label style="padding-left: 10px; padding-right: 15px;">Show All</label>
+                <input
+                    type="checkbox"
+                    id="showAllActivities"
+                    [(ngModel)]="showAllActivities"
+                    (change)="onShowAllChecked()">
+                <label style="padding-left: 10px; padding-right: 15px;">Filter</label>
+                <input
+                    type="checkbox"
+                    id="filterByActDateBHA"
+                    [(ngModel)]="filterByActDateBHA"
+                    (change)="onFilterByChecked()">
+            </div>        
+            <label style="padding-left: 15px; padding-right: 1px; padding-top: 5px;">BHA</label>      
+            <div class="col-3 col-sm-2 form-group">                        
+                <!-- <input
+                    type="text"                
+                    id="bha"
+                    class="form-control"
+                    autocomplete="on"        
+                    [(ngModel)]="bhaValue"
+                    (change)="onBHAChanged()"
+                    (keyup.enter)="onEnterKeyPressed()"
+                    [disabled]="!dateValid && !filterByActDateBHA"> 
+                    <datalist    
+                        id="bhas">           
+                        <option 
+                        *ngFor="let bha of bhas; let i = index"
+                        >{{ bha }}</option>
+                    </datalist> -->
+                    <select
+                        type="text"                
+                        id="bha"
+                        class="form-control"
+                        autocomplete="on"        
+                        [(ngModel)]="bhaValue"
+                        (change)="onBHAChanged()"
+                        (keyup.enter)="onEnterKeyPressed()"
+                        [disabled]="!dateValid && !filterByActDateBHA"> 
+                            <option></option>
+                            <option 
+                            *ngFor="let bha of bhas; let i = index"
+                            >{{ bha }}</option>
+                            <option>N/A</option>
+                    </select>
+            </div>
+        </div> 
+    </div>
+</div>
+    <style>th, td {
+        border: 1px solid;
+        border-color: rgba(211, 211, 211, 0.424);
+        width: 10%;
+        text-align: center;
+    }
+    </style>   
+<div class=" table table-container bg-dark table-responsive">
+    <div class="inner-container" #scrollTable [ngStyle]="{'height.px': tableHeight}">
+        <table class="table table-bordered table-sm"    
+            style="border: 1px solid; border-color: rgba(211, 211, 211, 0.424)"
+            *ngIf="!showAllActivities && !filterByActDateBHA">
+            <thead>
+                <tr>
+                    <th>End Time</th>
+                    <th>Activity</th>
+                    <th>End Depth</th>
+                    <th>BHA</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    style="cursor: pointer"         
+                    *ngFor="let activity of activities; let i = index; let last = last"
+                    (click)="onEditActivity(i)"
+                    [ngClass]="{'active': activity.endTime === selectedEndTime}">
+                    <td type="time">{{ activity.endTime }}</td> 
+                    <td>{{ activity.activity }}</td>
+                    <td>{{ activity.endDepth }}</td>  
+                    <td>{{ activity.bha }}</td>                  
+                    <td>{{ activity.comments }}</td>
+                    {{ last ? scrollToBottom() : '' }}
+                </tr>
+            </tbody>
+        </table>
+        <!-- <table class="table table-dark"
+                style="border: 1px solid; border-color: rgba(211, 211, 211, 0.424)"
+                *ngIf="showAllActivities || filterByActDateBHA">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>End Time</th>
+                    <th>Activity</th>
+                    <th>End Depth</th>                                      
+                    <th>BHA</th>
+                    <th>Comments</th>  
+                </tr>
+            </thead>
+            <tbody *ngFor="let daily of dailyActivities">
+                <tr
+                    style="cursor: pointer"         
+                    *ngFor="let activity of daily.activity; let last = last"
+                    [ngClass]="{'active': activity.endTime === selectedEndTime}">
+                    <td type="date">{{ daily.date | formatDate }}</td>
+                    <td type="time">{{ activity.endTime }}</td> 
+                    <td>{{ activity.activity }}</td>
+                    <td>{{ activity.endDepth }}</td>
+                    <td>{{ activity.bha }}</td>
+                    <td>{{ activity.comments }}</td>
+                    {{ last ? scrollToBottom() : '' }}
+                </tr>
+            </tbody>
+        </table> -->
+        <table class="table table-dark"
+                style="border: 1px solid; border-color: rgba(211, 211, 211, 0.424)"
+                *ngIf="showAllActivities || filterByActDateBHA">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>                    
+                    <th>Activity</th>
+                    <th>Start Depth</th>
+                    <th>End Depth</th>                                      
+                    <th>BHA</th>
+                    <th>Comments</th>  
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    style="cursor: pointer"         
+                    *ngFor="let activity of filteredActivities; let last = last"
+                    [ngClass]="{'active': activity.endTime === selectedEndTime}">
+                    <td type="date">{{ activity.date | formatDate }}</td>
+                    <td type="time">{{ activity.startTime }}</td>
+                    <td type="time">{{ activity.endTime }}</td> 
+                    <td>{{ activity.activity }}</td>
+                    <td>{{ activity.startDepth }}</td>
+                    <td>{{ activity.endDepth }}</td>
+                    <td>{{ activity.bha }}</td>
+                    <td>{{ activity.comments }}</td>
+                    {{ last ? scrollToBottom() : '' }}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

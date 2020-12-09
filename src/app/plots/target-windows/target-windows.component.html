@@ -1,0 +1,217 @@
+<!-- <div class="row">
+    <style>
+        label {
+            color: lightgray;
+        }
+        input, select {
+            background-color: lightgray;
+        }
+    </style>
+    <form [formGroup]="targetWindow" (ngSubmit)="onSubmit()">
+        <div class="col-12 col-xl-12 form-group">             
+            <div class="row">
+                <div class="col-12 col-sm-3 form-group"> 
+                    <label>Start Depth</label>                    
+                    <input 
+                        type="number" 
+                        id="startDepth"
+                        formControlName="startDepth"
+                        class="form-control">  
+                </div>
+                <div class="col-12 col-sm-3 form-group"> 
+                    <label>End Depth</label>                    
+                    <input 
+                        type="number" 
+                        id="endDepth"
+                        formControlName="endDepth"
+                        class="form-control">  
+                </div>
+                <div class="col-12 col-sm-3 form-group"> 
+                    <label>Above</label>                    
+                    <input 
+                        type="number" 
+                        id="above"
+                        formControlName="above"
+                        class="form-control">  
+                </div>
+                <div class="col-12 col-sm-3 form-group"> 
+                    <label>Below</label>                    
+                    <input 
+                        type="number" 
+                        id="below"
+                        formControlName="below"
+                        class="form-control">  
+                </div>
+            </div> 
+            <div class="row">    
+                <div class="col-12 col-sm-3 form-group">
+                    <label>Right</label> 
+                    <input 
+                        type="number" 
+                        id="right"
+                        formControlName="right"
+                        class="form-control">       
+                </div>
+                <div class="col-12 col-sm-3 form-group">
+                    <label>Left</label> 
+                    <input 
+                        type="number" 
+                        id="left"
+                        formControlName="left"
+                        class="form-control">       
+                </div>
+                <div class="col-12 col-sm-6 form-group">
+                    <button 
+                        type="submit"                                
+                        class="btn btn-sm btn-primary">
+                        Save
+                    </button> 
+                    <a style="color: white; margin: 5px">|</a>
+                    <button 
+                        type="button"
+                        class="btn btn-sm btn-danger" 
+                        (click)="onCancel()">
+                        Cancel
+                    </button>   
+                </div>
+            </div> 
+        </div> 
+    </form>
+    <div class="col-12 col-xl-6 form-group">             
+        <table class="table table-dark"
+                style="table-layout: fixed; border: 1px solid; border-color: rgba(211, 211, 211, 0.424)"
+            >                        
+            <thead>
+                <tr>
+                    <th colspan="3">Target Windows</th>
+                </tr>
+                <tr>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Above</th>
+                    <th>Below</th>
+                    <th>Right</th>
+                    <th>Left</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let targetWindow of targetWindows; let i = index">
+                <tr style="cursor: pointer">
+                    <td>{{ targetWindow.startDepth }}</td>
+                    <td>{{ targetWindow.endDepth }}</td>
+                    <td>{{ targetWindow.above }}</td>
+                    <td>{{ targetWindow.below }}</td>
+                    <td>{{ targetWindow.right }}</td>
+                    <td>{{ targetWindow.left }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>   -->
+<header>
+    <div>
+      <h1>Target Windows</h1>
+    </div>
+    <mat-icon (click)="toggleTheme()" title="Change theme">format_color_fill</mat-icon>
+  </header>
+  <form [formGroup]="windowsForm" (ngSubmit)="onSubmit()">
+      <table class="table table-border" [ngClass]="{'table-dark': mode}">
+        <thead class="text-nowrap">
+          <th>Start Depth</th>
+          <th>End Depth</th>
+          <th>Above</th>
+          <th>Below</th>
+          <th>Right</th>
+          <th>Left</th>
+          <th></th>
+        </thead>
+        <tbody>
+          <ng-container formArrayName="tableRows" *ngFor="let group of getFormControls.controls ; let i=index">
+            <!-- <tr *ngIf="group.get('isEditable').value" [formGroupName]="i"> -->
+            <tr [formGroupName]="i">
+              <td>
+                <mat-form-field>
+                  <input matInput type="number" formControlName="startDepth">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                  <input matInput type="number" formControlName="endDepth">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                  <input matInput type="number" formControlName="above">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                  <input matInput type="number" formControlName="below">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                  <input matInput type="number" formControlName="right">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                  <input matInput type="number" formControlName="left">
+                </mat-form-field>
+              </td>
+              <!-- <td>
+                <mat-form-field>
+                  <input matInput matInput [matDatepicker]="picker" formControlName="dob">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </td> -->
+              <!-- <td>
+                <mat-form-field>
+                  <mat-select formControlName="bloodGroup">
+                    <mat-option value="O+">O</mat-option>
+                    <mat-option value="A">A</mat-option>
+                    <mat-option value="B">B</mat-option>
+                    <mat-option value="AB">AB</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td> -->              
+              <td>
+                <mat-icon class="delete" (click)="deleteRow(i)">delete_forever</mat-icon>
+                <!-- <mat-icon class="done" (click)="doneRow(group)">done</mat-icon> -->
+              </td>
+            </tr>
+            <!-- <tr> *ngIf="!group.get('isEditable').value" > -->
+              <!-- <td>
+                {{group.get('startDepth').value}}
+              </td>
+              <td>
+                {{group.get('endDepth').value}}
+              </td>
+              <td>
+                  {{group.get('above').value}}
+              </td>
+              <td>
+                  {{group.get('below').value}}
+              </td> 
+              <td>
+                {{group.get('right').value}}
+              </td>
+              <td>
+                {{group.get('left').value}}
+              </td>
+              <td>
+                <mat-icon class="edit" (click)="editRow(group)">edit</mat-icon>
+              </td> -->
+            <!-- </tr> -->
+          </ng-container>
+        </tbody>
+      </table>
+      <div class="action-container">
+        <button mat-raised-button type="button" (click)="addRow()">Add Target Window</button>
+        <button mat-raised-button [disabled]="windowsForm.invalid" type="submit" >Submit</button>
+      </div>
+    </form>
+    <!-- <div class="output">
+      <p>Form Data:  {{windowsForm.value | json}}</p>
+        <p>Is Valid: {{windowsForm.valid}}</p>
+    </div> -->

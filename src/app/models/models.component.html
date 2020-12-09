@@ -1,0 +1,296 @@
+<!-- Mobile Resolution -->
+<div *ngIf="mobileResolution">
+    <div class="col-12 col-xs-12 form-group">
+        <style>
+            label {
+                color: lightgray;
+            }
+            input {
+                background-color: lightgray;
+            }
+        </style>
+        <div class="row">    
+            <div class="col-6 col-sm-6 form-group">
+                <label>Type</label>
+                <input
+                    type="text"
+                    id="type"
+                    class="form-control"
+                    placeholder="Type"
+                    [(ngModel)]="model.type"
+                    (change)="onInputValueChanged()">
+            </div>
+            <div class="col-6 col-sm-6 form-group">
+                <label>Model</label>
+                <input
+                    type="text"
+                    id="model"
+                    class="form-control"
+                    placeholder="Model"
+                    [(ngModel)]="model.model"
+                    (change)="onInputValueChanged()">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8 col-sm-8 form-group">
+                <label>Manufacturer</label>
+                <input
+                    type="text"
+                    id="manufacturer"
+                    class="form-control"
+                    placeholder="Manufacturer"
+                    [(ngModel)]="model.man"
+                    (change)="onInputValueChanged()">
+            </div>
+            <div class="col-4 col-sm-4 form-group">
+                <label>I.D.</label>
+                <input
+                    type="number"
+                    id="id"
+                    class="form-control"
+                    placeholder="I.D."
+                    [(ngModel)]="model.id"
+                    (change)="onInputValueChanged()">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 col-sm-4 form-group">
+                <label>O.D.</label>
+                <input
+                    type="number"
+                    id="od"
+                    class="form-control"
+                    placeholder="O.D."
+                    [(ngModel)]="model.od"
+                    (change)="onInputValueChanged()">
+            </div>
+            <div class="col-8 col-sm-8 form-group">
+                <label>Spec Sheet URL</label>
+                <input
+                    type="text"
+                    id="specSheetPath"
+                    class="form-control"
+                    placeholder="Spec Sheet Path"
+                    [(ngModel)]="model.specSheetPath"
+                    (change)="onInputValueChanged()">
+            </div>            
+        </div>
+        <div class="row">        
+            <div class="ml-3">                   
+                <button 
+                    class="btn btn-sm btn-success" 
+                    type="button" 
+                    (click)="onAddUpdateModel()"
+                    [disabled]="!okToUpdateAdd"
+                    >{{ editMode ? 'Update' : 'Add' }}</button>
+                <a style="color: lightgray"> | </a>
+                <button 
+                    class="btn btn-sm btn-danger" 
+                    type="button"
+                    [disabled]="!editMode"
+                    (click)=onDeleteModel()>Delete</button>
+                <a style="color: lightgray"> | </a>
+                <button 
+                    class="btn btn-sm btn-primary" 
+                    type="button"
+                    (click)="onClearInput()">Clear</button>    
+                <label style="padding-left: 5px; padding-right: 15px; padding-top: 5px;">Spec Sheet</label>
+                <input
+                    type="checkbox"
+                    id="showSpecSheet"
+                    [(ngModel)]="showSpecSheet"
+                    [disabled]="!editMode"
+                    (change)="onShowSpecSheetChecked()">
+                    <!-- <div class="col-xs-2">  -->
+                            <!-- <img *ngIf="showSpecSheet"
+                                            style="width: 25%"
+                                            [src]="specSheetPathValue" 
+                                            class='img-responsive'> -->
+                        <!-- </div>   -->
+            </div>             
+        </div>   
+    </div>
+</div>
+<!-- Destop, Tablet Resolution -->
+<div *ngIf="!mobileResolution">
+    <div class="col-12 col-xl-12 form-group">
+        <style>
+            label {
+                color: lightgray;
+            }
+            input {
+                background-color: lightgray;
+            }
+        </style>
+        <div class="row">            
+            <div class="col-sm-6 form-group">
+                <label>Type</label>
+                <input
+                    type="text"
+                    id="type"
+                    class="form-control"
+                    placeholder="Type"
+                    [(ngModel)]="model.type"
+                    (change)="onInputValueChanged()">
+            </div>
+            <div class="col-sm-6 form-group">
+                <label>Model</label>
+                <input
+                    type="text"
+                    id="model"
+                    class="form-control"
+                    placeholder="Model"
+                    [(ngModel)]="model.model"
+                    (change)="onInputValueChanged()">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                <label>Manufacturer</label>
+                <input
+                    type="text"
+                    id="manufacturer"
+                    class="form-control"
+                    placeholder="Manufacturer"
+                    [(ngModel)]="model.man"
+                    (change)="onInputValueChanged()">
+            </div>
+            <div class="col-sm-3 form-group">
+                <label>I.D.</label>
+                <input
+                    type="number"
+                    id="id"
+                    class="form-control"
+                    placeholder="I.D."
+                    [(ngModel)]="model.id"
+                    (change)="onInputValueChanged()">
+            </div>
+            <div class="col-sm-3 form-group">
+                <label>O.D.</label>
+                <input
+                    type="number"
+                    id="od"
+                    class="form-control"
+                    placeholder="O.D."
+                    [(ngModel)]="model.od"
+                    (change)="onInputValueChanged()">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 form-group">
+                <label>Spec Sheet URL</label>
+                <input
+                    type="text"
+                    id="specSheetPath"
+                    class="form-control"
+                    placeholder="Spec Sheet Path"
+                    [(ngModel)]="model.specSheetPath"
+                    (change)="onInputValueChanged()">
+            </div>            
+        </div>
+        <div class="row">        
+            <div class="ml-3">                   
+                <button 
+                    class="btn btn-sm btn-success" 
+                    type="button" 
+                    (click)="onAddUpdateModel()"
+                    [disabled]="!okToUpdateAdd"
+                    >{{ editMode ? 'Update' : 'Add' }}</button>
+                <a style="color: lightgray"> | </a>
+                <button 
+                    class="btn btn-sm btn-danger" 
+                    type="button"
+                    [disabled]="!editMode"
+                    (click)=onDeleteModel()>Delete</button>
+                <a style="color: lightgray"> | </a>
+                <button 
+                    class="btn btn-sm btn-primary" 
+                    type="button"
+                    (click)="onClearInput()">Clear</button>    
+                <label style="padding-left: 15px; padding-right: 15px; padding-top: 5px;">Show Spec Sheet</label>
+                <input
+                    type="checkbox"
+                    id="showSpecSheet"
+                    [(ngModel)]="showSpecSheet"
+                    [disabled]="!editMode"
+                    (change)="onShowSpecSheetChecked()">
+                    <!-- <div class="col-xs-2">  -->
+                            <!-- <img *ngIf="showSpecSheet"
+                                            style="width: 25%"
+                                            [src]="specSheetPathValue" 
+                                            class='img-responsive'> -->
+                        <!-- </div>   -->
+            </div>             
+        </div>  
+    </div>
+</div>
+<!-- <div [ngClass]="{ 'col-lg-12 form-group': !showSpecSheet,
+                  'col-lg-6 form-group': showSpecSheet }">             -->
+                
+<!-- <div class="col-ml-12">
+    <div class="row">   
+        <style>th, td {
+            border: 1px solid;
+            border-color: rgba(211, 211, 211, 0.424);
+            width: 10%;
+            text-align: center;
+        }
+        </style>      
+        <table class="table table-dark"
+               [ngStyle]="{'width': showSpecSheet ? '60%' : '100%' }"
+               style="table-layout: fixed; border: 1px solid; border-color: rgba(211, 211, 211, 0.424)"> -->
+               <!-- [ngStyle]="{'width': showSpecSheet ? '50%' : '100%' }" -->
+
+               <!-- <img *ngIf="showSpecSheet"
+            style="width: 40%"
+            [src]="model.specSheetPath" 
+            class='img-responsive'> -->
+<!-- <div class="col-ml-12"> -->
+    <div>
+        <div [className]="showSpecSheet ? 'd-none' : 'cols-sm-12 form-group'">
+            <div class=" table table-container bg-dark table-responsive">
+                <div class="inner-container" #scrollModels [ngStyle]="{'height.px': tableHeight}">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Model</th>
+                                <th>Manufact.</th>
+                                <th>I.D.</th>
+                                <th>O.D.</th>
+                                <th>Spec Sheet</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                style="cursor: pointer"         
+                                *ngFor="let model of models; let i = index"
+                                (click)="onEditModel(i)">
+                                <td>{{ model.type }}</td> 
+                                <td>{{ model.model }}</td>
+                                <td>{{ model.man }}</td>
+                                <td>{{ model.id }}</td>
+                                <td>{{ model.od }}</td>
+                                <td style="overflow: hidden">
+                                    <a href="{{ model.specSheetPath }}"
+                                    target="_blank">
+                                        {{ model.specSheetPath }}
+                                    </a>
+                                </td>     
+                                    
+                            </tr>                
+                        </tbody>            
+                    </table>       
+                </div>  
+            </div>
+        </div>
+        <div [className]="showSpecSheet ? 'col-6 col-sm-6 form-group' : 'd-none'">
+            <img *ngIf="showSpecSheet"
+            [src]="model.specSheetPath" 
+            class='img-responsive'>
+        </div>
+    </div>
+<!-- </div> -->
+
+
+        
