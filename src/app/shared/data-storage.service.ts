@@ -44,7 +44,7 @@ export class DataStorageService {
                 userID: userID            
         }
 
-        this.http.put('https://tallybook-5d807.firebaseio.com/users/' + formattedEmail + '.json',
+        this.http.put(environment.baseAddress + 'users/' + formattedEmail + '.json',
                         newUser)
                         .subscribe(response => {
                             // console.log(response);
@@ -80,7 +80,7 @@ export class DataStorageService {
         // console.log(tallyBookListOld);
         // console.log(tallyBookListTemp);
         // this.http.put(
-        //     'https://tallybook-5d807.firebaseio.com/users/' + formattedEmail + '/TallyBookList.json',
+        //     environment.baseAddress + 'users/' + formattedEmail + '/TallyBookList.json',
         //         tallyBookListTemp)
         //         .subscribe(response => {
         //             console.log(response);
@@ -99,7 +99,7 @@ export class DataStorageService {
         const formattedEmail = email.split('.').join(',');
         return this.http
             .get<TallyBookList>(
-                'https://tallybook-5d807.firebaseio.com/users/' + formattedEmail + '/TallyBookList.json'
+                environment.baseAddress + 'users/' + formattedEmail + '/TallyBookList.json'
         )
         .pipe(    
             map(tallyBookList => {
@@ -113,7 +113,7 @@ export class DataStorageService {
                 delete tallyBookList[currentTallyBookName];
 
                 this.http.put(
-                    'https://tallybook-5d807.firebaseio.com/users/' + formattedEmail + '/TallyBookList.json',
+                    environment.baseAddress + 'users/' + formattedEmail + '/TallyBookList.json',
                         tallyBookList)
                         .subscribe(response => {
                             console.log(response);
@@ -129,7 +129,7 @@ export class DataStorageService {
 
         const formattedEmail = email.split('.').join(',');
         return this.http.get<TallyBookList[]>(
-            'https://tallybook-5d807.firebaseio.com/users/' + formattedEmail + '/TallyBookList.json')
+            environment.baseAddress + 'users/' + formattedEmail + '/TallyBookList.json')
         .pipe(                        
             map(tallyBookList => {
                 if (tallyBookList) {
@@ -147,7 +147,7 @@ export class DataStorageService {
                 const formattedEmail = email.split('.').join(',');    
                     
                 this.http.put(
-                    'https://tallybook-5d807.firebaseio.com/users/' + formattedEmail + '/TallyBookList.json',
+                    environment.baseAddress + 'users/' + formattedEmail + '/TallyBookList.json',
                         tallyBookList)
                         .subscribe(response => {
                             console.log(response);
@@ -158,7 +158,7 @@ export class DataStorageService {
                 let members = this.membersService.getMembers();
 
                 this.http.put(
-                    'https://tallybook-5d807.firebaseio.com/Tally Books/' + tallyBookName + '/members.json',
+                    environment.baseAddress + 'Tally Books/' + tallyBookName + '/members.json',
                         members) 
                         .subscribe(response => {
                             // console.log(response);
@@ -169,7 +169,7 @@ export class DataStorageService {
 
     getUserIDtoShare(email: string) {
         const formattedEmail = email.split('.').join(',');
-        return this.http.get<string>('https://tallybook-5d807.firebaseio.com/users/' + formattedEmail + '/userID.json')
+        return this.http.get<string>(environment.baseAddress + 'users/' + formattedEmail + '/userID.json')
         .pipe(    
             map(userID => {
                 if (userID) {
@@ -185,7 +185,7 @@ export class DataStorageService {
         const formattedEmail = email.split('.').join(',');
         const activitiesList = this.activitiesService.getActivitiesList();
         this.http.put(
-            'https://tallybook-5d807.firebaseio.com/users/' + formattedEmail + '/ActivitiesList.json',
+            environment.baseAddress + 'users/' + formattedEmail + '/ActivitiesList.json',
                 activitiesList)
                 .subscribe(response => {
                     console.log(response);
@@ -196,7 +196,7 @@ export class DataStorageService {
         const formattedEmail = email.split('.').join(',');
         return this.http
             .get<ActivitiesList[]>(
-                'https://tallybook-5d807.firebaseio.com/users/' + formattedEmail + '/ActivitiesList.json'
+                environment.baseAddress + 'users/' + formattedEmail + '/ActivitiesList.json'
         )
         .pipe(    
             map(activitiesList => {
@@ -220,7 +220,7 @@ export class DataStorageService {
         const formattedEmail = email.split('.').join(',');
         const models = this.modelsService.getModels();
         return this.http.put(
-            'https://tallybook-5d807.firebaseio.com/users/' + formattedEmail + '/Models.json',
+            environment.baseAddress + 'users/' + formattedEmail + '/Models.json',
                 models)
                 .pipe(
                     map(response => {
@@ -234,7 +234,7 @@ export class DataStorageService {
         const formattedEmail = email.split('.').join(',');
         return this.http
             .get<Model[]>(
-                'https://tallybook-5d807.firebaseio.com/users/' + formattedEmail + '/Models.json'
+                environment.baseAddress + 'users/' + formattedEmail + '/Models.json'
         )
         .pipe(    
             map(models => {
@@ -260,7 +260,7 @@ export class DataStorageService {
         const formattedEmail = email.split('.').join(',');
         const tallyBookList = this.tallyBookService.getTallyBookList();
         this.http.put(
-            'https://tallybook-5d807.firebaseio.com/users/' + formattedEmail + '/TallyBookList.json',
+            environment.baseAddress + 'users/' + formattedEmail + '/TallyBookList.json',
                 tallyBookList)
                 .subscribe(response => {
                     console.log(response);
@@ -271,7 +271,7 @@ export class DataStorageService {
         const formattedEmail = email.split('.').join(',');
         return this.http
             .get<TallyBookList[]>(
-                'https://tallybook-5d807.firebaseio.com/users/' + formattedEmail + '/TallyBookList.json'
+                environment.baseAddress + 'users/' + formattedEmail + '/TallyBookList.json'
         )
         .pipe(    
             map(tallyBookList => {
@@ -291,7 +291,7 @@ export class DataStorageService {
         if (currentTallyBookName !== 'Tally Book') {
             const members = this.membersService.getMembers();
             this.http.put(
-                'https://tallybook-5d807.firebaseio.com/Tally Books/' + currentTallyBookName + '/members.json',
+                environment.baseAddress + 'Tally Books/' + currentTallyBookName + '/members.json',
                     members) 
                     .subscribe(response => {
                         // console.log(response);
@@ -303,7 +303,7 @@ export class DataStorageService {
         if (currentTallyBookName !== 'Tally Book') {            
             return this.http
             .get<Members[]>(
-                'https://tallybook-5d807.firebaseio.com/Tally Books/' + currentTallyBookName + '/members.json'
+                environment.baseAddress + 'Tally Books/' + currentTallyBookName + '/members.json'
             )
             .pipe(    
                 map(members => {
@@ -336,7 +336,7 @@ export class DataStorageService {
                 notes: this.notesService.getNotes(), 
             }
             return this.http.put(
-                'https://tallybook-5d807.firebaseio.com/Tally Books/' + currentTallyBookName + '/Tally Book.json',
+                environment.baseAddress + 'Tally Books/' + currentTallyBookName + '/Tally Book.json',
                     tallyBook) 
                     .pipe(
                         map(response => {
@@ -365,7 +365,7 @@ export class DataStorageService {
 
     //         console.log(tallyBook);
     //         return this.http.put(
-    //             'https://tallybook-5d807.firebaseio.com/Tally Books/' + currentTallyBookName + '/Tally Book.json',
+    //             environment.baseAddress + 'Tally Books/' + currentTallyBookName + '/Tally Book.json',
     //                 tallyBook) 
     //                 .pipe(
     //                     map(response => {
@@ -379,7 +379,7 @@ export class DataStorageService {
         if (currentTallyBookName !== 'Tally Book') {            
             return this.http            
                 .get<TallyBook>(             
-                    'https://tallybook-5d807.firebaseio.com/Tally Books/' + currentTallyBookName + '/Tally Book.json',
+                    environment.baseAddress + 'Tally Books/' + currentTallyBookName + '/Tally Book.json',
             )
             .pipe(  
                 map(tallyBook => {
@@ -423,7 +423,7 @@ export class DataStorageService {
         if (tallyBookName !== 'Tally Book') {            
             return this.http            
                 .get<Surveys[]>(             
-                    'https://tallybook-5d807.firebaseio.com/Tally Books/' + tallyBookName + '/Tally Book/surveyHeader.json',
+                    environment.baseAddress + 'Tally Books/' + tallyBookName + '/Tally Book/surveyHeader.json',
                 )          
                 .pipe(  
                     map((surveyHeader: SurveyHeader) => {
@@ -449,7 +449,7 @@ export class DataStorageService {
         if (tallyBookName !== 'Tally Book') {            
             return this.http            
                 .get<Surveys[]>(             
-                    'https://tallybook-5d807.firebaseio.com/Tally Books/' + tallyBookName + '/Tally Book/surveys.json',
+                    environment.baseAddress + 'Tally Books/' + tallyBookName + '/Tally Book/surveys.json',
                 )          
                 .pipe(  
                     map((surveys: Surveys[]) => {
@@ -472,7 +472,7 @@ export class DataStorageService {
         if (tallyBookName !== 'Tally Book') {            
             return this.http            
                 .get<PlanHeader>(             
-                    'https://tallybook-5d807.firebaseio.com/Tally Books/' + tallyBookName + '/Tally Book/planHeader.json',
+                    environment.baseAddress + 'Tally Books/' + tallyBookName + '/Tally Book/planHeader.json',
                 )
                 .pipe(  
                     map((planHeader: PlanHeader) => {
@@ -498,7 +498,7 @@ export class DataStorageService {
         if (tallyBookName !== 'Tally Book') {            
             return this.http            
                 .get<Plans[]>(             
-                    'https://tallybook-5d807.firebaseio.com/Tally Books/' + tallyBookName + '/Tally Book/plans.json',
+                    environment.baseAddress + 'Tally Books/' + tallyBookName + '/Tally Book/plans.json',
                 )
                 .pipe(  
                     map((plans: Plans[]) => {
@@ -521,7 +521,7 @@ export class DataStorageService {
     fetchAllTallyBookNames() {        
         return this.http            
             .get<string[]>(             
-                'https://tallybook-5d807.firebaseio.com/Tally Books.json?shallow=true',
+                environment.baseAddress + 'Tally Books.json?shallow=true',
         )
         .pipe(  
             map(tallyBook => {
